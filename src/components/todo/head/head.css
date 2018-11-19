@@ -1,0 +1,40 @@
+.head {
+    width: calc(100% - 250px);
+    height: 100vh;
+    margin-left: auto;
+}
+
+.head__page-title {
+    position: absolute;
+    margin: 0;
+    font-size: 28px;
+    top: 5px;
+    margin-left: 15px;
+    text-transform: capitalize;
+}
+
+.head__todo {
+    height: calc(100% - 50px);
+    width: 60%;
+    margin-left: 15px;
+    position: relative;
+    top: 50px;
+}
+
+.todo__form {
+    position: relative;
+}
+
+.todo__btn-picker {
+    position: absolute;
+    right: 5px;
+    top: 13px;
+    border: none;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+}
+
+.todo__picker {
+    display: none;
+}

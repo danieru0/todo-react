@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon } from 'react-materialize';
+import { Icon } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import './nav.css';
 
@@ -16,20 +16,26 @@ class Nav extends Component {
         </Link>
         <ul className="nav__links">
             <li className="nav__item">
+                <Link to="/app">
+                    <Icon className="nav__item__icon">date_range</Icon>
+                    <p>All</p>
+                </Link>
+            </li>
+            <li className="nav__item">
                 <Link to="/app/today">
-                    <Icon className="nav__item__icon" small>today</Icon>
+                    <Icon className="nav__item__icon">today</Icon>
                     <p>Today</p>
                 </Link>
             </li>
             <li className="nav__item">
                 <Link to="/app/tomorrow">
-                    <Icon className="nav__item__icon" small>event</Icon>
+                    <Icon className="nav__item__icon">event</Icon>
                     <p>Tomorrow</p>
                 </Link>
             </li>
             <li className="nav__item">
                 <Link to="/app/week">
-                    <Icon className="nav__item__icon" small>next_week</Icon>
+                    <Icon className="nav__item__icon">next_week</Icon>
                     <p>Next 7 days</p>
                 </Link>
             </li>
