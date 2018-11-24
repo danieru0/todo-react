@@ -1,0 +1,76 @@
+.user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.user__form {
+    width: 500px;
+    height: 570px;
+    border: 1px solid #e6e6e6;
+    border-radius: 20px;
+    flex-direction: column;
+    box-shadow: 0 0 10px 0.1px #000000;   
+}
+
+.user__settings-title {
+    font-size: 18px;
+    border-bottom: 1px solid #999;
+    margin-left: 20px;
+    padding-left: 20px;
+    padding-bottom: 1px;
+    box-sizing: border-box;
+    width: 90%;
+}
+
+.title-small {
+    font-size: 13px;
+}
+
+.settings-group {
+    margin-left: 20px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.settings__file {
+    margin-left: 20px;
+    align-self: flex-end;
+    width: 199px;
+}
+
+.settings__avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}
+
+.settings__background {
+    width: 250px;
+    height: 180px;
+}
+
+.user__password {
+    height: 100%;
+    padding: 0;
+    padding-left: 5px;
+    box-sizing: border-box;
+    height: 35px;
+    margin-right: 10px;
+    border: 1px solid #000000;
+}
+
+.user__password:focus {
+    border: 1px solid #4a148c;
+}
+
+.settings-group:last-of-type {
+    margin-top: 30px;
+}
+
+.settings-group button {
+    margin-right: 20px;
+}
