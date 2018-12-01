@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createTodo } from '../../../store/actions/todoActions';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Icon, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
@@ -128,6 +130,7 @@ class Head extends Component {
 
   handleTodoAdd = (e) => {
     e.preventDefault();
+    this.props.createTodo('elo ziomeczki');
   }
 
   handleDropGroupBtn = (index) => {
@@ -137,6 +140,7 @@ class Head extends Component {
 
   render() {
     const { classes } = this.props;
+    console.log(this.props);
     return (
       <MuiThemeProvider theme={materialTheme}>
         <div className="head">
@@ -235,4 +239,16 @@ Head.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(Head);
+const mapStateToProps = (state) => {
+  return {
+    todos: state.todo.projects
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createTodo: (todo) => dispatch(createTodo(todo))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Head));

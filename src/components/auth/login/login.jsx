@@ -3,6 +3,8 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signIn } from '../../../store/actions/authActions';
 import './login.css';
 
 const styles = {
@@ -35,6 +37,7 @@ class Login extends Component {
   handleLoginSubmit = (e) => {
     e.preventDefault();
     this.setState({ submitted: true });
+    this.props.signIn({email: this.state.email, password: this.state.password});
   }
 
   render() {
@@ -44,11 +47,11 @@ class Login extends Component {
         <form onSubmit={this.handleLoginSubmit} className="login__form">
           <div className="form-group">
             <input onChange={this.handleInputChange} name="email" required type="text" className="login__email"></input>
-            <label for="email" className="floating-label">Your email</label>
+            <label htmlFor="email" className="floating-label">Your email</label>
           </div>
           <div className="form-group">
             <input onChange={this.handleInputChange} name="password" required type="password" className="login__password"></input>
-            <label for="password" className="floating-label">Your password</label>
+            <label htmlFor="password" className="floating-label">Your password</label>
           </div>
           <Button
             disabled={this.state.submitted}
@@ -63,4 +66,16 @@ class Login extends Component {
   }
 }
 
-export default withStyles(styles)(Login);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (creds) => dispatch(signIn(creds))
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    authError: state.auth.authError
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));
