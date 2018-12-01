@@ -8,3 +8,21 @@ export const signIn = (credentials) => {
         });
     }
 }
+
+export const signUp = (newUser) => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+
+        firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password).then((resp) =>{
+            firestore.collection('users').doc(resp.user.uid).set({
+                full_name: newUser.name,
+                email: newUser.email
+            }).then(() => {
+                dispatch({ type: 'SIGNUP_SUCCESS' })
+            }).catch((err) => {
+                dispatch({ type: 'SIGNUP_ERROR', err })
+            });
+        })
+    }
+}

@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signIn } from '../../../store/actions/authActions';
+import { Redirect } from 'react-router-dom';
 import './login.css';
 
 const styles = {
@@ -41,7 +42,8 @@ class Login extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, auth } = this.props;
+    if (auth.uid) return <Redirect to="/app" />
     return (
       <div className="login">
         <form onSubmit={this.handleLoginSubmit} className="login__form">
@@ -74,7 +76,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    authError: state.auth.authError
+    authError: state.auth.authError,
+    auth: state.firebase.auth
   }
 }
 

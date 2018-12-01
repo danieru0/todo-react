@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Icon } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import './nav.css';
 
 class Nav extends Component {
   render() {
+    const { auth } = this.props;
+    if (!auth.uid) return '';
     return (
       <div className="nav">
         <Link to="/app/user" className="nav__user">
@@ -45,4 +48,10 @@ class Nav extends Component {
   }
 }
 
-export default Nav;
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth
+    }
+}
+
+export default connect(mapStateToProps, null)(Nav);

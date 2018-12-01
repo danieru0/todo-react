@@ -3,6 +3,8 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signUp } from '../../../store/actions/authActions';
 import './register.css';
 
 const styles = {
@@ -32,6 +34,7 @@ class Register extends Component {
   handleRegisterSubmit = e => {
     e.preventDefault();
     this.setState({ submitted: true });
+    this.props.signUp({ email: this.state.email, password: this.state.password, name: this.state.name });
   }
 
   handleInputChange = e => {
@@ -45,15 +48,15 @@ class Register extends Component {
         <form onSubmit={this.handleRegisterSubmit} className="register__form">
           <div className="form-group">
             <input onChange={this.handleInputChange} name="name" type="text" className="register__name" required></input>
-            <label for="name" className="floating-label">Full name</label>
+            <label htmlFor="name" className="floating-label">Full name</label>
           </div>
           <div className="form-group">
             <input onChange={this.handleInputChange} name="email" className="register__email" required type="text"></input>
-            <label for="name" className="floating-label">Your email</label>
+            <label htmlFor="name" className="floating-label">Your email</label>
           </div>
           <div className="form-group">
             <input onChange={this.handleInputChange} name="password" className="register__password" required type="password"></input>
-            <label for="password" className="floating-label">Your password</label>
+            <label htmlFor="password" className="floating-label">Your password</label>
           </div>
           <Button
             type="submit"
@@ -68,4 +71,16 @@ class Register extends Component {
   }
 }
 
-export default withStyles(styles)(Register);
+const mapDispatchToProps = (dispatch) => {
+  return {
+      signUp: (newUser) => dispatch(signUp(newUser))
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+      auth: state.firebase.auth
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Register));
