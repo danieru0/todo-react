@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createTodo } from '../../../store/actions/todoActions';
+import { createTodo, getAllTodo } from '../../../store/actions/todoActions';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Icon, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { DateTimePicker } from 'material-ui-pickers';
 import TextField from '@material-ui/core/TextField';
+import { Redirect } from 'react-router-dom';
 import './head.css';
 
 const styles = {
@@ -76,6 +77,7 @@ class Head extends Component {
 
 
   componentDidMount() {
+    this.props.getAllTodo();
     const page = this.props.match.params.page;
     this.setState({ 
       page: page ,
@@ -147,7 +149,8 @@ class Head extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, auth } = this.props;
+    if (!auth.uid) return <Redirect to="/" />
     return (
       <MuiThemeProvider theme={materialTheme}>
         <div className="head">
@@ -244,19 +247,15 @@ class Head extends Component {
 }
 
 Head.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
-    todos: state.todo.projects
+    todos: state.todo.projects,
+    auth: state.firebase.auth
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    createTodo: (todo) => dispatch(createTodo(todo))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Head));
+export default connect(mapStateToProps, {createTodo, getAllTodo})(withStyles(styles)(Head));

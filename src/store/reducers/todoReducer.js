@@ -1,8 +1,5 @@
 const initState = {
-    projects: [
-        {id: 1, 'title': 'ass'},
-        {id: 2, 'title': 'elo'}
-    ]
+    projects: null
 }
 
 const todoReducer = (state = initState, action) => {
@@ -13,6 +10,12 @@ const todoReducer = (state = initState, action) => {
         case 'CREATE_TODO_ERROR':
             console.log('created todo error');
             break;
+        case 'GET_TODO_ALL':
+            console.log(action.data);
+            return {
+                ...state,
+                projects: action.data
+            }
         default: break;
     }
     return state
