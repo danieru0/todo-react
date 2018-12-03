@@ -67,8 +67,10 @@ class Head extends Component {
     super();
     this.state = {
       page: null,
-      todoInputText: 'There is always something to do!',
-      selectedDate: new Date()
+      todoInputPlaceholder: 'There is always something to do!',
+      selectedDate: null,
+      todoInputText: null,
+      todoClose: false
     }
   }
 
@@ -77,7 +79,7 @@ class Head extends Component {
     const page = this.props.match.params.page;
     this.setState({ 
       page: page ,
-      todoInputText: this.createTodoInputText(page)
+      todoInputPlaceholder: this.createTodoInputText(page)
     });
   }
 
@@ -86,7 +88,7 @@ class Head extends Component {
       const page = nextProps.match.params.page;
       this.setState({ 
         page: page,
-        todoInputText: this.createTodoInputText(page)
+        todoInputPlaceholder: this.createTodoInputText(page)
       });
     }
   }
@@ -120,36 +122,42 @@ class Head extends Component {
     return text;
   }
 
-  handleDateChange = date => {
-    this.setState({ selectedDate: date });
+  handleInputChange = e => {
+    this.setState({ todoInputText: e.target.value });
   }
 
-  openPicker = e => {
-    this.picker.open(e);
+  handleTodoAdd = date => {
+    let year = date.getFullYear();
+    let month = date.getMonth();
+    let day = ('0' + date.getDate()).slice(-2);
+    let hours = date.getHours();
+    let minutes = ('0' + date.getMinutes()).slice(-2);
+    let fullDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+    this.props.createTodo({
+      time: fullDate.split(' ')[1],
+      date: fullDate.split(' ')[0],
+      todo: this.state.todoInputText,
+      id: Date.now().toString(36) + Math.random().toString(36).substr(2)
+    });
   }
 
-  handleTodoAdd = (e) => {
-    e.preventDefault();
-    this.props.createTodo('elo ziomeczki');
-  }
-
-  handleDropGroupBtn = (index) => {
+  handleDropGroupBtn = index => {
     let tasksGroups = document.querySelectorAll('.todo__group');
     tasksGroups[index].classList.toggle('hidden');
   }
 
   render() {
     const { classes } = this.props;
-    console.log(this.props);
     return (
       <MuiThemeProvider theme={materialTheme}>
         <div className="head">
           <p className="head__page-title">{this.state.page ? this.state.page : 'All'}</p>
           <div className="head__todo">
-            <form onSubmit={this.handleTodoAdd} className="todo__form">
+            <form onSubmit={(e) => e.preventDefault()} className="todo__form">
               <TextField
                 fullWidth={true}
-                placeholder={this.state.todoInputText}
+                onChange={this.handleInputChange}
+                placeholder={this.state.todoInputPlaceholder}
                 variant="outlined"
                 InputProps={{
                   classes: {
@@ -159,15 +167,15 @@ class Head extends Component {
                   }
                 }}
               />
-              <button className="todo__btn-picker" onClick={this.openPicker}>
+              <button className="todo__btn-picker" onClick={(e) => this.picker.open(e)}>
                 <Icon>calendar_today</Icon>
               </button>
               <div className="todo__picker">
                 <DateTimePicker
-                label="With"
                 value={this.state.selectedDate}
                 disablePast
-                onChange={this.handleDateChange}
+                onChange={this.handleTodoAdd}
+                onClose={this.closePicker}
                 ref={node => {
                   this.picker = node;
                 }}
