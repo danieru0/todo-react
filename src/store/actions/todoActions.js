@@ -29,6 +29,11 @@ export const getAllTodo = () => {
             firestore.collection('users').doc(user.uid).get().then((doc) => {
                 dispatch({ type: 'GET_TODO_ALL', data: doc.data() })
             });
+            /*firestore.collection('users').doc(user.uid).get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    dispatch({ type: 'GET_TODO_ALL', data: doc.data() });
+                });
+            })*/
         });
     }
 }

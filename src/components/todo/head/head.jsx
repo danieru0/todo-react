@@ -71,7 +71,8 @@ class Head extends Component {
       todoInputPlaceholder: 'There is always something to do!',
       selectedDate: null,
       todoInputText: null,
-      todoClose: false
+      todoClose: false,
+      todos: null
     }
   }
 
@@ -130,7 +131,7 @@ class Head extends Component {
 
   handleTodoAdd = date => {
     let year = date.getFullYear();
-    let month = date.getMonth();
+    let month = ('0' + date.getMonth()).slice(-2);
     let day = ('0' + date.getDate()).slice(-2);
     let hours = date.getHours();
     let minutes = ('0' + date.getMinutes()).slice(-2);
@@ -149,8 +150,16 @@ class Head extends Component {
   }
 
   render() {
-    const { classes, auth } = this.props;
+    const { classes, auth, todos } = this.props;
+    let formattedTodos = [];
     if (!auth.uid) return <Redirect to="/" />
+    if (todos) { 
+      for (let key in todos) {
+          formattedTodos.push({
+            [key]: todos[key]
+          })
+      }
+    }
     return (
       <MuiThemeProvider theme={materialTheme}>
         <div className="head">
@@ -185,60 +194,35 @@ class Head extends Component {
               />
               </div>
             </form>
-            <div className="todo__group">
-                <button onClick={() => this.handleDropGroupBtn(0)} className="todo__group-dropBtn">
-                  <Icon className="dropBtn-icon">arrow_drop_down</Icon>
-                  Monday, Nov 22
-                  <span className="todo__group-tasksNumber">2</span>
-                </button>
-                <ul className="todo__group-tasks">
-                  <li className="todo__tasks__item">
-                    <button className="tasks__item-checkbox">
-                      <span className="item-checkbox__box"></span>
+            {
+              formattedTodos && formattedTodos.map((item, i) => {
+                return (
+                  <div key={i} className="todo__group">
+                    <button onClick={() => this.handleDropGroupBtn(i)} className="todo__group-dropBtn">
+                      <Icon className="dropBtn-icon">arrow_drop_down</Icon>
+                      {Object.keys(item)}
                     </button>
-                    <div className="tasks__item-task">
-                      <p className="task-name">Kupić mleko!</p>
-                      <p className="task-time">12:00 AM</p>
-                    </div>
-                  </li>
-                  <li className="todo__tasks__item">
-                    <button className="tasks__item-checkbox">
-                      <span className="item-checkbox__box"></span> 
-                    </button>
-                    <div className="tasks__item-task">
-                      <p className="task-name">rozdupczyć się</p>
-                      <p className="task-time">01:43 PM</p>
-                    </div>
-                  </li>
-                </ul>
-            </div>
-            <div className="todo__group">
-                <button onClick={() => this.handleDropGroupBtn(1)} className="todo__group-dropBtn">
-                  <Icon className="dropBtn-icon">arrow_drop_down</Icon>
-                  Tuesday, Nov 24
-                  <span className="todo__group-tasksNumber">2</span>
-                </button>
-                <ul className="todo__group-tasks">
-                  <li className="todo__tasks__item">
-                    <button className="tasks__item-checkbox">
-                      <span className="item-checkbox__box"></span>
-                    </button>
-                    <div className="tasks__item-task">
-                      <p className="task-name">Berlinowelelele</p>
-                      <p className="task-time">04:31 PM</p>
-                    </div>
-                  </li>
-                  <li className="todo__tasks__item">
-                    <button className="tasks__item-checkbox">
-                      <span className="item-checkbox__box"></span>
-                    </button>
-                    <div className="tasks__item-task">
-                      <p className="task-name">abababab</p>
-                      <p className="task-time">02:43 PM</p>
-                    </div>
-                  </li>
-                </ul>
-            </div>
+                    <ul className="todo__group-tasks">
+                      {
+                        item[Object.keys(item)].map((item, i) => {
+                          return (
+                            <li key={i} className="todo__tasks__item">
+                              <button id={Object.keys(item)} className="tasks__item-checkbox">
+                                <span className="item-checkbox__box"></span>
+                              </button>
+                              <div className="tasks__item-task">
+                                <p className="task-name">{item[Object.keys(item)].todo}</p>
+                                <p className="task-time">{item[Object.keys(item)].time}</p>
+                              </div>
+                            </li>
+                          )
+                        })
+                      }
+                    </ul>
+                  </div>
+                )
+              })
+            }
           </div>
         </div>
       </MuiThemeProvider>
@@ -251,9 +235,8 @@ Head.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
-    todos: state.todo.projects,
+    todos: state.todo.todos ? state.todo.todos.todos : null,
     auth: state.firebase.auth
   }
 }

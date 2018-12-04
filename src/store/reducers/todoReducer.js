@@ -1,5 +1,5 @@
 const initState = {
-    projects: null
+    todos: null
 }
 
 const todoReducer = (state = initState, action) => {
@@ -11,10 +11,9 @@ const todoReducer = (state = initState, action) => {
             console.log('created todo error');
             break;
         case 'GET_TODO_ALL':
-            console.log(action.data);
             return {
                 ...state,
-                projects: action.data
+                todos: action.data
             }
         default: break;
     }
