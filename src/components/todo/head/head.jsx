@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createTodo, getAllTodo } from '../../../store/actions/todoActions';
+import { createTodo, getAllTodo, updateTodo } from '../../../store/actions/todoActions';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Icon, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { DateTimePicker } from 'material-ui-pickers';
 import TextField from '@material-ui/core/TextField';
 import { Redirect } from 'react-router-dom';
+import moment from 'moment/moment.js';
 import './head.css';
 
 const styles = {
@@ -149,6 +150,10 @@ class Head extends Component {
     tasksGroups[index].classList.toggle('hidden');
   }
 
+  handleTodoClick = (todo) => {
+    this.props.updateTodo(todo);
+  }
+
   render() {
     const { classes, auth, todos } = this.props;
     let formattedTodos = [];
@@ -196,18 +201,26 @@ class Head extends Component {
             </form>
             {
               formattedTodos && formattedTodos.map((item, i) => {
+                let todoDate = Object.keys(item);
                 return (
                   <div key={i} className="todo__group">
                     <button onClick={() => this.handleDropGroupBtn(i)} className="todo__group-dropBtn">
                       <Icon className="dropBtn-icon">arrow_drop_down</Icon>
-                      {Object.keys(item)}
+                      {moment(todoDate.toString()).format('dddd, MMM D')}
+                      <span className="todo__group-year">{moment(todoDate.toString()).format('YYYY')}</span>
                     </button>
                     <ul className="todo__group-tasks">
                       {
                         item[Object.keys(item)].map((item, i) => {
+                          let todo = {
+                            date: todoDate.toString(),
+                            todo: item[Object.keys(item)].todo,
+                            time: item[Object.keys(item)].time,
+                            id: Object.keys(item).toString()
+                          }
                           return (
                             <li key={i} className="todo__tasks__item">
-                              <button id={Object.keys(item)} className="tasks__item-checkbox">
+                              <button onClick={() => this.handleTodoClick(todo)} className="tasks__item-checkbox">
                                 <span className="item-checkbox__box"></span>
                               </button>
                               <div className="tasks__item-task">
@@ -241,4 +254,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {createTodo, getAllTodo})(withStyles(styles)(Head));
+export default connect(mapStateToProps, {createTodo, getAllTodo, updateTodo})(withStyles(styles)(Head));

@@ -8,6 +8,7 @@
     "date-fns": "^2.0.0-alpha.16",
     "firebase": "^5.5.9",
     "material-ui-pickers": "^2.0.1",
+    "moment": "^2.22.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-materialize": "^2.4.8",

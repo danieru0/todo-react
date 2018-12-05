@@ -77,9 +77,10 @@
     transform: rotate(-90deg);
 }
 
-.todo__group-tasksNumber {
+.todo__group-year {
     position: absolute;
     right: 0;
+    font-size: 14px;
 }
 
 .todo__group-tasks {
