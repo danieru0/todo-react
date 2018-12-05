@@ -73,14 +73,16 @@ class Head extends Component {
       selectedDate: null,
       todoInputText: null,
       todoClose: false,
-      todos: null
+      todos: null,
+      selectedPage: null,
     }
   }
 
 
   componentDidMount() {
-    this.props.getAllTodo();
     const page = this.props.match.params.page;
+    this.props.getAllTodo();
+    this.showTodoGroup(page);
     this.setState({ 
       page: page ,
       todoInputPlaceholder: this.createTodoInputText(page)
@@ -90,10 +92,47 @@ class Head extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.match.params !== this.props.match.params) {
       const page = nextProps.match.params.page;
+      this.showTodoGroup(page);
       this.setState({ 
         page: page,
         todoInputPlaceholder: this.createTodoInputText(page)
       });
+    }
+  }
+
+  showTodoGroup = (page) => {
+    function showElements(date) {
+      let elements = document.querySelectorAll('.todo__group');
+      for (let i = 0; i < elements.length; i++) {
+        if (date !== 'week' || date !== 'all') {
+          if (elements[i].id === date) {
+            elements[i].style.display = 'block';
+          } else {
+            elements[i].style.display = 'none';
+          }
+        }
+        if (date === 'all') {
+          elements[i].style.display = 'block';
+        }
+      }
+    }
+    switch (page) {
+      case undefined:
+        showElements('all')
+        break;
+      case 'today':
+        showElements(moment().format('YYYY-MM-DD'));
+        break;
+      case 'tomorrow':
+        let today = new Date();
+        let tomorrow = new Date();
+        tomorrow.setDate(today.getDate()+1);
+        showElements(moment(tomorrow).format('YYYY-MM-DD'));
+        break;
+      case 'week':
+        showElements('week');
+        break;
+      default: break;
     }
   }
 
@@ -105,7 +144,7 @@ class Head extends Component {
         break;
       case 'today':
         text = 'What are we doing today?';
-        this.setState({ selectedDate: new Date() })
+        this.setState({ selectedDate: new Date(), selectedPage: moment().format('YYYY-MM-DD') });
         break;
       case 'tomorrow':
         text = `There's always tomorrow!`;
@@ -113,14 +152,17 @@ class Head extends Component {
             tomorrow = new Date();
         tomorrow.setDate(today.getDate()+1);
         this.setState({
-          selectedDate: tomorrow
+          selectedDate: tomorrow,
+          selectedPage: moment(tomorrow).format('YYYY-MM-DD')
         })
         break;
       case 'week':
         text = 'We can make a lot of things in a week!';
+        this.setState({ selectedPage: null });
         break;
       default: 
         text = 'There is always something to do!';
+        this.setState({ selectedPage: null });
         break;
     }
     return text;
@@ -132,7 +174,7 @@ class Head extends Component {
 
   handleTodoAdd = date => {
     let year = date.getFullYear();
-    let month = ('0' + date.getMonth()).slice(-2);
+    let month = ('0' + (date.getMonth() +1)).slice(-2);
     let day = ('0' + date.getDate()).slice(-2);
     let hours = date.getHours();
     let minutes = ('0' + date.getMinutes()).slice(-2);
@@ -158,7 +200,7 @@ class Head extends Component {
     const { classes, auth, todos } = this.props;
     let formattedTodos = [];
     if (!auth.uid) return <Redirect to="/" />
-    if (todos) { 
+    if (todos) {
       for (let key in todos) {
           formattedTodos.push({
             [key]: todos[key]
@@ -203,7 +245,7 @@ class Head extends Component {
               formattedTodos && formattedTodos.map((item, i) => {
                 let todoDate = Object.keys(item);
                 return (
-                  <div key={i} className="todo__group">
+                  <div id={moment(todoDate.toString()).format('YYYY-MM-DD')} key={i} className="todo__group">
                     <button onClick={() => this.handleDropGroupBtn(i)} className="todo__group-dropBtn">
                       <Icon className="dropBtn-icon">arrow_drop_down</Icon>
                       {moment(todoDate.toString()).format('dddd, MMM D')}

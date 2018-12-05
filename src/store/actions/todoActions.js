@@ -20,7 +20,7 @@ export const createTodo = (todo) => {
     }
 }
 
-export const getAllTodo = () => {
+export const getAllTodo = (time) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firebase = getFirebase();
         const firestore = getFirestore();
