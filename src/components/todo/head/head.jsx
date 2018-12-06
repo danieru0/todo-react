@@ -129,25 +129,15 @@ class Head extends Component {
         break;
       case 'today':
         text = 'What are we doing today?';
-        this.setState({ selectedDate: new Date(), selectedPage: moment().format('YYYY-MM-DD') });
         break;
       case 'tomorrow':
         text = `There's always tomorrow!`;
-        let today = new Date(),
-            tomorrow = new Date();
-        tomorrow.setDate(today.getDate()+1);
-        this.setState({
-          selectedDate: tomorrow,
-          selectedPage: moment(tomorrow).format('YYYY-MM-DD')
-        })
         break;
       case 'week':
         text = 'We can make a lot of things in a week!';
-        this.setState({ selectedPage: null });
         break;
       default: 
         text = 'There is always something to do!';
-        this.setState({ selectedPage: null });
         break;
     }
     return text;
@@ -196,6 +186,19 @@ class Head extends Component {
             formattedTodos.push({
               [key]: todos[key]
             })
+          }
+          if (this.state.selectedPage === 'week') {
+            for (let i = 0; i < 7; i++) {
+              let currentDay = new Date();
+              let nextDay = new Date();
+              nextDay.setDate(currentDay.getDate() + i);
+              console.log(moment(nextDay).format('YYYY-MM-DD'))
+              if (key === moment(nextDay).format('YYYY-MM-DD')) {
+                formattedTodos.push({
+                  [key]: todos[key]
+                })
+              }         
+            }
           }
       }
     }
