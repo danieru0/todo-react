@@ -39,18 +39,19 @@ export const updateTodo = (todo) => {
         const firestore = getFirestore();
 
         firebase.auth().onAuthStateChanged((user) => {
-            firestore.collection('users').doc(user.uid).set({
-                todos: {
-                    [todo.date]: firebase.firestore.FieldValue.arrayUnion({
-                        [todo.id]: {
-                            date: todo.date,
-                            todo: todo.todo,
-                            finished: true,
-                            time: todo.time
-                        }
+            let databaseRef = firestore.collection('users').doc(user.uid);
+            firestore.runTransaction(transaction => {
+                return transaction.get(databaseRef).then(doc => {
+                    let todos = doc.data().todos;
+                    todos[todo.date].map((item) => {
+                        let todoItem = item[todo.id];
+                        return (
+                            todoItem ? todoItem.finished = true : null
+                        )
                     })
-                }
-            })
+                    transaction.update(databaseRef, { todos: todos });
+                });
+            });
         })
     }
 }

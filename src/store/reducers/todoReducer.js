@@ -1,5 +1,6 @@
 const initState = {
-    todos: null
+    todos: null,
+    updated: false
 }
 
 const todoReducer = (state = initState, action) => {
@@ -14,6 +15,11 @@ const todoReducer = (state = initState, action) => {
             return {
                 ...state,
                 todos: action.data
+            }
+        case 'UPDATE_TODO':
+            return {
+                ...state,
+                updated: true
             }
         default: break;
     }

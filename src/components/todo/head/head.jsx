@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment/moment.js';
 import './head.css';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const styles = {
   cssOutlinedInput: {
@@ -18,9 +19,19 @@ const styles = {
   },
   cssFocused: {},
   notchedOutline: {},
+  linearColorPrimary: {
+    backgroundColor: '#4a148c'
+  },
+  linearMargins: {
+    marginLeft: '1px',
+    marginRight: '1px'
+  }
 }
 
 const materialTheme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   overrides: {
     MuiPickersToolbar: {
       toolbar: {
@@ -192,7 +203,6 @@ class Head extends Component {
               let currentDay = new Date();
               let nextDay = new Date();
               nextDay.setDate(currentDay.getDate() + i);
-              console.log(moment(nextDay).format('YYYY-MM-DD'))
               if (key === moment(nextDay).format('YYYY-MM-DD')) {
                 formattedTodos.push({
                   [key]: todos[key]
@@ -237,41 +247,48 @@ class Head extends Component {
               </div>
             </form>
             {
-              formattedTodos && formattedTodos.map((item, i) => {
-                let todoDate = Object.keys(item);
-                return (
-                  <div id={moment(todoDate.toString()).format('YYYY-MM-DD')} key={i} className="todo__group">
-                    <button onClick={() => this.handleDropGroupBtn(i)} className="todo__group-dropBtn">
-                      <Icon className="dropBtn-icon">arrow_drop_down</Icon>
-                      {moment(todoDate.toString()).format('dddd, MMM D')}
-                      <span className="todo__group-year">{moment(todoDate.toString()).format('YYYY')}</span>
-                    </button>
-                    <ul className="todo__group-tasks">
-                      {
-                        item[Object.keys(item)].map((item, i) => {
-                          let todo = {
-                            date: todoDate.toString(),
-                            todo: item[Object.keys(item)].todo,
-                            time: item[Object.keys(item)].time,
-                            id: Object.keys(item).toString()
-                          }
-                          return (
-                            <li key={i} className="todo__tasks__item">
-                              <button onClick={() => this.handleTodoClick(todo)} className="tasks__item-checkbox">
-                                <span className="item-checkbox__box"></span>
-                              </button>
-                              <div className="tasks__item-task">
-                                <p className="task-name">{item[Object.keys(item)].todo}</p>
-                                <p className="task-time">{item[Object.keys(item)].time}</p>
-                              </div>
-                            </li>
-                          )
-                        })
-                      }
-                    </ul>
-                  </div>
-                )
-              })
+              formattedTodos.length ? (
+                formattedTodos.map((item, i) => {
+                  let todoDate = Object.keys(item);
+                  return (
+                    <div id={moment(todoDate.toString()).format('YYYY-MM-DD')} key={i} className="todo__group">
+                      <button onClick={() => this.handleDropGroupBtn(i)} className="todo__group-dropBtn">
+                        <Icon className="dropBtn-icon">arrow_drop_down</Icon>
+                        {moment(todoDate.toString()).format('dddd, MMM D')}
+                        <span className="todo__group-year">{moment(todoDate.toString()).format('YYYY')}</span>
+                      </button>
+                      <ul className="todo__group-tasks">
+                        {
+                          item[Object.keys(item)].map((item, i) => {
+                            let todo = {
+                              date: todoDate.toString(),
+                              todo: item[Object.keys(item)].todo,
+                              time: item[Object.keys(item)].time,
+                              id: Object.keys(item).toString()
+                            }
+                            return (
+                              <li key={i} className="todo__tasks__item">
+                                <button onClick={() => this.handleTodoClick(todo)} className="tasks__item-checkbox">
+                                  <span className="item-checkbox__box"></span>
+                                </button>
+                                <div className="tasks__item-task">
+                                  <p className="task-name">{item[Object.keys(item)].todo}</p>
+                                  <p className="task-time">{item[Object.keys(item)].time}</p>
+                                </div>
+                              </li>
+                            )
+                          })
+                        }
+                      </ul>
+                    </div>
+                  )
+                })
+              ) : (
+                <LinearProgress classes={{
+                  barColorPrimary: classes.linearColorPrimary,
+                  root: classes.linearMargins
+                }} />
+              )
             }
           </div>
         </div>
@@ -287,6 +304,7 @@ Head.propTypes = {
 const mapStateToProps = (state) => {
   return {
     todos: state.todo.todos ? state.todo.todos.todos : null,
+    todoUpdated: state.todo.updated,
     auth: state.firebase.auth
   }
 }
