@@ -101,36 +101,21 @@ class Head extends Component {
   }
 
   showTodoGroup = (page) => {
-    function showElements(date) {
-      let elements = document.querySelectorAll('.todo__group');
-      for (let i = 0; i < elements.length; i++) {
-        if (date !== 'week' || date !== 'all') {
-          if (elements[i].id === date) {
-            elements[i].style.display = 'block';
-          } else {
-            elements[i].style.display = 'none';
-          }
-        }
-        if (date === 'all') {
-          elements[i].style.display = 'block';
-        }
-      }
-    }
     switch (page) {
       case undefined:
-        showElements('all')
+        this.setState({ selectedPage: null });
         break;
       case 'today':
-        showElements(moment().format('YYYY-MM-DD'));
+        this.setState({ selectedPage: moment().format('YYYY-MM-DD') });
         break;
       case 'tomorrow':
         let today = new Date();
         let tomorrow = new Date();
         tomorrow.setDate(today.getDate()+1);
-        showElements(moment(tomorrow).format('YYYY-MM-DD'));
+        this.setState({ selectedPage: moment(tomorrow).format('YYYY-MM-DD') });
         break;
       case 'week':
-        showElements('week');
+        this.setState({ selectedPage: 'week' })
         break;
       default: break;
     }
@@ -202,9 +187,16 @@ class Head extends Component {
     if (!auth.uid) return <Redirect to="/" />
     if (todos) {
       for (let key in todos) {
-          formattedTodos.push({
-            [key]: todos[key]
-          })
+          if (this.state.selectedPage !== 'week' && key === this.state.selectedPage) {
+            formattedTodos.push({
+              [key]: todos[key]
+            })
+          }
+          if (!this.state.selectedPage) {
+            formattedTodos.push({
+              [key]: todos[key]
+            })
+          }
       }
     }
     return (
