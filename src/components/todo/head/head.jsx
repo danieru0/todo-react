@@ -174,9 +174,8 @@ class Head extends Component {
     });
   }
 
-  handleDropGroupBtn = index => {
-    let tasksGroups = document.querySelectorAll('.todo__group');
-    tasksGroups[index].classList.toggle('hidden');
+  handleDropGroupBtn = (e) => {
+    e.target.parentNode.classList.toggle('hidden');
   }
 
   handleTodoClick = (e, todo) => {
@@ -188,8 +187,11 @@ class Head extends Component {
   }
 
   render() {
-    const { classes, auth, todos, todoAdded } = this.props;
+    const { classes, auth, todos, todoAdded, todoUpdated } = this.props;
     if (todoAdded) {
+      this.props.getAllTodo();
+    }
+    if (todoUpdated) {
       this.props.getAllTodo();
     }
     let formattedTodos = [];
@@ -258,15 +260,26 @@ class Head extends Component {
               formattedTodos.length ? (
                 formattedTodos.map((item, i) => {
                   let todoDate = Object.keys(item);
+                  let todoGroupLength = item[Object.keys(item)].length;
+                  item[Object.keys(item)].map((item) => {
+                    return (
+                      item[Object.keys(item)].finished ? (
+                        todoGroupLength = todoGroupLength = todoGroupLength - 1
+                      ) : (
+                        ''
+                      )
+                    )
+                  })
                   return (
-                    <div id={moment(todoDate.toString()).format('YYYY-MM-DD')} key={i} className="todo__group">
-                      <button onClick={() => this.handleDropGroupBtn(i)} className="todo__group-dropBtn">
+                    todoGroupLength !== 0 ? (
+                      <div id={moment(todoDate.toString()).format('YYYY-MM-DD')} key={i} className="todo__group">
+                      <button onClick={this.handleDropGroupBtn} className="todo__group-dropBtn">
                         <Icon className="dropBtn-icon">arrow_drop_down</Icon>
                         {moment(todoDate.toString()).format('dddd, MMM D')}
                         <span className="todo__group-year">{moment(todoDate.toString()).format('YYYY')}</span>
                       </button>
                       <ul className="todo__group-tasks">
-                        {
+                        { 
                           item[Object.keys(item)].map((item, i) => {
                             let todo = {
                               date: todoDate.toString(),
@@ -275,7 +288,10 @@ class Head extends Component {
                               id: Object.keys(item).toString()
                             }
                             return (
-                              <li key={i} className="todo__tasks__item">
+                              item[Object.keys(item)].finished ? (
+                                ''
+                              ) : (
+                                <li key={i} className="todo__tasks__item">
                                 <button onClick={(e) => this.handleTodoClick(e, todo)} className="tasks__item-checkbox">
                                   <span className="item-checkbox__box">
                                     <Icon fontSize="small" >done</Icon>
@@ -285,12 +301,16 @@ class Head extends Component {
                                   <p className="task-name">{item[Object.keys(item)].todo}</p>
                                   <p className="task-time">{item[Object.keys(item)].time}</p>
                                 </div>
-                              </li>
+                              </li>                            
+                              )
                             )
                           })
                         }
                       </ul>
                     </div>
+                    ) : (
+                      ''
+                    )
                   )
                 })
               ) : (
@@ -318,7 +338,7 @@ Head.propTypes = {
 const mapStateToProps = (state) => {
   return {
     todos: state.todo.todos ? state.todo.todos.todos : null,
-    todoUpdated: state.todo.updated,
+    todoUpdated: state.todo.todoUpdated,
     todoAdded: state.todo.todoAdded,
     auth: state.firebase.auth
   }
