@@ -15,7 +15,9 @@ export const createTodo = (todo) => {
                         }
                     })
                 }
-            }, { merge: true });
+            }, { merge: true }).then(() => {
+                dispatch({ type: 'CREATE_TODO' });
+            });
         })
     }
 }

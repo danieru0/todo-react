@@ -1,13 +1,17 @@
 const initState = {
     todos: null,
-    updated: false
+    updated: false,
+    todoAdded: false
+
 }
 
 const todoReducer = (state = initState, action) => {
     switch (action.type) {
         case 'CREATE_TODO':
-            console.log('created todo');
-            break;
+            return {
+                ...state,
+                todoAdded: true
+            }
         case 'CREATE_TODO_ERROR':
             console.log('created todo error');
             break;

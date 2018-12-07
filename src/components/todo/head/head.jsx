@@ -86,6 +86,7 @@ class Head extends Component {
       todoClose: false,
       todos: null,
       selectedPage: null,
+      loadingTodos: false
     }
   }
 
@@ -183,7 +184,10 @@ class Head extends Component {
   }
 
   render() {
-    const { classes, auth, todos } = this.props;
+    const { classes, auth, todos, todoAdded } = this.props;
+    if (todoAdded) {
+      this.props.getAllTodo();
+    }
     let formattedTodos = [];
     if (!auth.uid) return <Redirect to="/" />
     if (todos) {
@@ -284,10 +288,14 @@ class Head extends Component {
                   )
                 })
               ) : (
-                <LinearProgress classes={{
-                  barColorPrimary: classes.linearColorPrimary,
-                  root: classes.linearMargins
-                }} />
+                todos ? (
+                  ''
+                ) : (
+                  <LinearProgress classes={{
+                    barColorPrimary: classes.linearColorPrimary,
+                    root: classes.linearMargins
+                  }} />
+                )
               )
             }
           </div>
@@ -305,6 +313,7 @@ const mapStateToProps = (state) => {
   return {
     todos: state.todo.todos ? state.todo.todos.todos : null,
     todoUpdated: state.todo.updated,
+    todoAdded: state.todo.todoAdded,
     auth: state.firebase.auth
   }
 }
