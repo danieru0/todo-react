@@ -52,7 +52,9 @@ export const updateTodo = (todo) => {
                         )
                     })
                     transaction.update(databaseRef, { todos: todos });
-                });
+                }).then(() => {
+                    dispatch({ type: 'UPDATE_TODO' });
+                })
             });
         })
     }

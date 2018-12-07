@@ -94,6 +94,8 @@
     display: flex;
     align-items: center;
     height: 35px;
+    overflow: hidden;
+    transition: 0.5s;
 }
 
 .tasks__item-checkbox {
@@ -103,15 +105,19 @@
     background: transparent;
     cursor: pointer;
     outline: none;
+    position: relative;
 }
 
 .item-checkbox__box {
-    width: 6px;
-    height: 6px;
-    position: relative;
-    left: -0.55px;
-    background: red;
+    width: 16px;
+    height: 16px;
+    background: lightgrey;
+    position: absolute;
     display: none;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
 }
 
 .tasks__item-task {

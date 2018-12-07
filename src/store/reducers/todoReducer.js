@@ -1,6 +1,6 @@
 const initState = {
     todos: null,
-    updated: false,
+    todoUpdated: false,
     todoAdded: false
 
 }
@@ -23,7 +23,7 @@ const todoReducer = (state = initState, action) => {
         case 'UPDATE_TODO':
             return {
                 ...state,
-                updated: true
+                todoUpdated: true
             }
         default: break;
     }

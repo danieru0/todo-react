@@ -179,8 +179,12 @@ class Head extends Component {
     tasksGroups[index].classList.toggle('hidden');
   }
 
-  handleTodoClick = (todo) => {
-    this.props.updateTodo(todo);
+  handleTodoClick = (e, todo) => {
+    if (e.target.children[0]) {
+      e.target.children[0].style.display = 'flex';
+      e.target.parentNode.style.height = '0px';
+      this.props.updateTodo(todo);
+    }
   }
 
   render() {
@@ -272,8 +276,10 @@ class Head extends Component {
                             }
                             return (
                               <li key={i} className="todo__tasks__item">
-                                <button onClick={() => this.handleTodoClick(todo)} className="tasks__item-checkbox">
-                                  <span className="item-checkbox__box"></span>
+                                <button onClick={(e) => this.handleTodoClick(e, todo)} className="tasks__item-checkbox">
+                                  <span className="item-checkbox__box">
+                                    <Icon fontSize="small" >done</Icon>
+                                  </span>
                                 </button>
                                 <div className="tasks__item-task">
                                   <p className="task-name">{item[Object.keys(item)].todo}</p>
