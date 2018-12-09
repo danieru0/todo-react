@@ -84,7 +84,6 @@ class Head extends Component {
       selectedDate: null,
       todoInputText: null,
       todoClose: false,
-      todos: null,
       selectedPage: null,
       loadingTodos: false
     }
@@ -128,6 +127,9 @@ class Head extends Component {
         break;
       case 'week':
         this.setState({ selectedPage: 'week' })
+        break;
+      case 'completed':
+        this.setState({ selectedPage: 'completed' })
         break;
       default: break;
     }
@@ -203,6 +205,11 @@ class Head extends Component {
               [key]: todos[key]
             })
           }
+          if (this.state.selectedPage === 'completed') {
+            formattedTodos.push({
+              [key]: todos[key]
+            }) 
+          }
           if (!this.state.selectedPage) {
             formattedTodos.push({
               [key]: todos[key]
@@ -261,15 +268,27 @@ class Head extends Component {
                 formattedTodos.map((item, i) => {
                   let todoDate = Object.keys(item);
                   let todoGroupLength = item[Object.keys(item)].length;
-                  item[Object.keys(item)].map((item) => {
-                    return (
-                      item[Object.keys(item)].finished ? (
-                        todoGroupLength = todoGroupLength = todoGroupLength - 1
-                      ) : (
-                        ''
+                  if (this.state.selectedPage !== 'completed') {
+                    item[Object.keys(item)].map((item) => {
+                      return (
+                        item[Object.keys(item)].finished ? (
+                          todoGroupLength = todoGroupLength = todoGroupLength - 1
+                        ) : (
+                          ''
+                        )
                       )
-                    )
-                  })
+                    })
+                  } else {
+                    item[Object.keys(item)].map((item) => {
+                      return (
+                        item[Object.keys(item)].finished ? (
+                          ''
+                        ) : (
+                          todoGroupLength = todoGroupLength = todoGroupLength - 1
+                        )
+                      )
+                    })
+                  }
                   return (
                     todoGroupLength !== 0 ? (
                       <div id={moment(todoDate.toString()).format('YYYY-MM-DD')} key={i} className="todo__group">
@@ -289,19 +308,37 @@ class Head extends Component {
                             }
                             return (
                               item[Object.keys(item)].finished ? (
-                                ''
+                                this.state.selectedPage === 'completed' ? (
+                                  <li key={i} className="todo__tasks__item">
+                                  <button onClick={(e) => this.handleTodoClick(e, todo)} className="tasks__item-checkbox">
+                                    <span className="item-checkbox__box completed">
+                                      <Icon fontSize="small" >done</Icon>
+                                    </span>
+                                  </button>
+                                  <div className="tasks__item-task">
+                                    <p className="task-name">{item[Object.keys(item)].todo}</p>
+                                    <p className="task-time">{item[Object.keys(item)].time}</p>
+                                  </div>
+                                </li>    
+                                ) : (
+                                  ''
+                                )
                               ) : (
-                                <li key={i} className="todo__tasks__item">
-                                <button onClick={(e) => this.handleTodoClick(e, todo)} className="tasks__item-checkbox">
-                                  <span className="item-checkbox__box">
-                                    <Icon fontSize="small" >done</Icon>
-                                  </span>
-                                </button>
-                                <div className="tasks__item-task">
-                                  <p className="task-name">{item[Object.keys(item)].todo}</p>
-                                  <p className="task-time">{item[Object.keys(item)].time}</p>
-                                </div>
-                              </li>                            
+                                this.state.selectedPage !== 'completed' ? (
+                                  <li key={i} className="todo__tasks__item">
+                                  <button onClick={(e) => this.handleTodoClick(e, todo)} className="tasks__item-checkbox">
+                                    <span className="item-checkbox__box">
+                                      <Icon fontSize="small" >done</Icon>
+                                    </span>
+                                  </button>
+                                  <div className="tasks__item-task">
+                                    <p className="task-name">{item[Object.keys(item)].todo}</p>
+                                    <p className="task-time">{item[Object.keys(item)].time}</p>
+                                  </div>
+                                </li>     
+                                ) : (
+                                  ''
+                                )                       
                               )
                             )
                           })

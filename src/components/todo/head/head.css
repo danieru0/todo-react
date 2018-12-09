@@ -120,6 +120,10 @@
     left: 0;
 }
 
+.item-checkbox__box.completed {
+    display: flex;
+}
+
 .tasks__item-task {
     cursor: pointer;
     width: 100%;

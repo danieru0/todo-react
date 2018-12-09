@@ -42,6 +42,19 @@ class Nav extends Component {
                     <p>Next 7 days</p>
                 </Link>
             </li>
+            <div className="nav__line"></div>
+            <li className="nav__item">
+                <Link to="/app/completed">
+                    <Icon className="nav__item__icon">done</Icon>
+                    <p>Completed</p>
+                </Link>
+            </li>
+            <li className="nav__item">
+                <Link to="/app/overdue">
+                    <Icon className="nav__item__icon">error</Icon>
+                    <p>Overdue</p>
+                </Link>
+            </li>
         </ul>
       </div>
     );
