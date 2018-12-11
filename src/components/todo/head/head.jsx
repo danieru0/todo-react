@@ -131,6 +131,9 @@ class Head extends Component {
       case 'completed':
         this.setState({ selectedPage: 'completed' })
         break;
+      case 'overdue': 
+        this.setState({ selectedPage: 'overdue' })
+        break;
       default: break;
     }
   }
@@ -201,19 +204,30 @@ class Head extends Component {
     if (todos) {
       for (let key in todos) {
           if (this.state.selectedPage !== 'week' && key === this.state.selectedPage) {
-            formattedTodos.push({
-              [key]: todos[key]
-            })
+            if (moment(key).isSameOrAfter(moment().format('YYYY-MM-DD').toString())) {
+              formattedTodos.push({
+                [key]: todos[key]
+              })
+            }
           }
           if (this.state.selectedPage === 'completed') {
             formattedTodos.push({
               [key]: todos[key]
             }) 
           }
+          if (this.state.selectedPage === 'overdue') {
+            if (moment(key).isBefore(moment().format('YYYY-MM-DD').toString())) {
+              formattedTodos.push({
+                [key]: todos[key]
+              })
+            }
+          }
           if (!this.state.selectedPage) {
-            formattedTodos.push({
-              [key]: todos[key]
-            })
+            if (moment(key).isSameOrAfter(moment().format('YYYY-MM-DD').toString())) {
+              formattedTodos.push({
+                [key]: todos[key]
+              })
+            }
           }
           if (this.state.selectedPage === 'week') {
             for (let i = 0; i < 7; i++) {
