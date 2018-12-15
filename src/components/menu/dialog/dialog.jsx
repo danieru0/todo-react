@@ -15,10 +15,6 @@ class DialogComponent extends Component {
     }
   }
 
-  componentDidMount() {
-      //this.setState({ open: true });
-  }
-
   handleClose = () => {
       this.setState({ open: false });
   }

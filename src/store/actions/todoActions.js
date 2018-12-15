@@ -45,10 +45,10 @@ export const updateTodo = (todo) => {
             firestore.runTransaction(transaction => {
                 return transaction.get(databaseRef).then(doc => {
                     let todos = doc.data().todos;
-                    todos[todo.date].map((item) => {
-                        let todoItem = item[todo.id];
+                    todos[todo.todo.date].map((item) => {
+                        let todoItem = item[todo.todo.id];
                         return (
-                            todoItem ? todoItem.finished = true : null
+                            todoItem ? todoItem.finished = todo.finished : null
                         )
                     })
                     transaction.update(databaseRef, { todos: todos });

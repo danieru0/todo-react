@@ -1,3 +1,7 @@
+body {
+    height: 100%;
+}
+
 .head {
     width: calc(100% - 250px);
     height: 100vh;
@@ -13,12 +17,17 @@
     text-transform: capitalize;
 }
 
+.head-wrapper {
+    display: flex;
+}
+
 .head__todo {
     height: calc(100% - 50px);
     width: 60%;
     margin-left: 15px;
     position: relative;
     top: 50px;
+    z-index: 1;
 }
 
 .todo__form {
@@ -122,6 +131,7 @@
 
 .item-checkbox__box.completed {
     display: flex;
+    z-index: -1;
 }
 
 .tasks__item-task {
@@ -136,4 +146,20 @@
 .task-name {
     margin: 0;
     margin-left: 10px;
+}
+
+.head__info {
+    width: 40%;
+    height: 100%;
+    right: 0;
+    position: fixed;
+}
+
+.head__info-wrapper {
+    margin-left: 115px;
+    height: 100%;
+}
+
+.head__detailsComponent {
+    height: 60%;
 }
