@@ -11,7 +11,8 @@ export const createTodo = (todo) => {
                             date: todo.date,
                             todo: todo.todo,
                             finished: false,
-                            time: todo.time
+                            time: todo.time,
+                            description: ''
                         }
                     })
                 }
@@ -47,9 +48,15 @@ export const updateTodo = (todo) => {
                     let todos = doc.data().todos;
                     todos[todo.todo.date].map((item) => {
                         let todoItem = item[todo.todo.id];
-                        return (
-                            todoItem ? todoItem.finished = todo.finished : null
-                        )
+                        if (todo.finished) {
+                            return (
+                                todoItem ? todoItem.finished = todo.finished : null
+                            )
+                        } else {
+                            return (
+                                todoItem ? todoItem.description = todo.todo.description : null
+                            )
+                        }
                     })
                     transaction.update(databaseRef, { todos: todos });
                 }).then(() => {
