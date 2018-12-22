@@ -61,10 +61,7 @@
     height: 35px;
     margin-right: 10px;
     border: 1px solid #000000;
-}
-
-.user__password:focus {
-    border: 1px solid #4a148c;
+    outline-color: #4a148c;
 }
 
 .settings-group:last-of-type {

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { updateImages } from '../../../store/actions/userActions';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Dialog from '../../menu/dialog/dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -30,13 +32,21 @@ class User extends Component {
     super();
     this.state = {
       submitted: false,
-      deleteDialog: false
+      deleteDialog: false,
+      avatarImage: null,
+      avatarImageLink: null,
+      backgroundImage: null,
+      backgroundImageLink: null
     }
   }
 
   handleUserSubmit = e => {
     e.preventDefault();
     this.setState({ submitted: true });
+    this.props.updateImages({
+      avatar: this.state.avatarImage,
+      background: this.state.backgroundImage
+    });
   }
 
   handleDeleteButton = () => {
@@ -52,8 +62,22 @@ class User extends Component {
         this.setState({ submitted: false, deleteDialog: false });
         alert('deleting account...');
         break;
+      case 'outside':
+        this.setState({ submitted: false, deleteDialog: false });
+        break;
       default: 
         break;
+    }
+  }
+
+  handleFileChange = e => {
+    const name = e.target.name;
+    const file = e.target.files[0];
+    if (file) {
+      this.setState({
+        [name]: file,
+        [name + 'Link']: window.URL.createObjectURL(file)
+      });
     }
   }
 
@@ -64,13 +88,13 @@ class User extends Component {
         <form onSubmit={this.handleUserSubmit} className="user__form">
           <p className="user__settings-title">Avatar<span className="title-small"> 64x64</span></p>
           <div className="settings-group">
-            <img className="settings__avatar" alt="" src="https://react-materialize.github.io/img/yuna.jpg"></img>
-            <input className="settings__file" type="file"></input>
+            <img className="settings__avatar" alt="" src={this.state.avatarImageLink ? this.state.avatarImageLink : "https://react-materialize.github.io/img/yuna.jpg"}></img>
+            <input onChange={this.handleFileChange} name="avatarImage" className="settings__file" type="file" accept="image/*" ></input>
           </div>
           <p className="user__settings-title">Background<span className="title-small"> 250x180</span></p>
           <div className="settings-group">
-            <img className="settings__background" alt="" src="https://react-materialize.github.io/img/office.jpg"></img>
-            <input className="settings__file" type="file"></input>
+            <img className="settings__background" alt="" src={this.state.backgroundImageLink ? this.state.backgroundImageLink : "https://react-materialize.github.io/img/office.jpg"}></img>
+            <input onChange={this.handleFileChange} name="backgroundImage" className="settings__file" type="file" accept="image/*"></input>
           </div>
           <p className="user__settings-title">Password</p>
           <div className="settings-group">
@@ -100,4 +124,4 @@ class User extends Component {
   }
 }
 
-export default withStyles(styles)(User);
+export default connect(null, {updateImages})(withStyles(styles)(User));

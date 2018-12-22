@@ -23,7 +23,7 @@ class DialogComponent extends Component {
     return (
         <Dialog
             open={this.state.open}
-            onClose={this.handleClose}
+            onClose={(e) => { this.props.onClick('outside'); this.handleClose(); }}
         >
             <DialogTitle id="alert-dialog-title">{'Are you sure about that?'}</DialogTitle>
             <DialogContent>

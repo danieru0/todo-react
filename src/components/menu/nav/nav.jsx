@@ -6,15 +6,15 @@ import './nav.css';
 
 class Nav extends Component {
   render() {
-    const { auth } = this.props;
+    const { auth, profile } = this.props;
     if (!auth.uid) return '';
     return (
       <div className="nav">
-        <Link to="/app/user" className="nav__user">
+        <Link to="/app/user" style={{backgroundImage: `url(${profile.background})`}} className="nav__user">
             <div className="nav__info">
-                <img alt="" src="https://react-materialize.github.io/img/yuna.jpg"></img>
-                <p className="nav__name">Daniel Dąbrowski</p>
-                <p className="nav__email">dabrowskidaniel006@gmail.com</p>
+                <img alt="" src={profile.avatar}></img>
+                <p className="nav__name">{profile.full_name}</p>
+                <p className="nav__email">{profile.email}</p>
             </div>
         </Link>
         <ul className="nav__links">
@@ -63,7 +63,8 @@ class Nav extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        profile: state.firebase.profile
     }
 }
 
