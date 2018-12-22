@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Icon } from '@material-ui/core';
-import { updateTodo } from '../../../store/actions/todoActions';
+import { updateTodo, removeTodo } from '../../../store/actions/todoActions';
 import Button from '@material-ui/core/Button';
 import moment from 'moment/moment.js';
 import './details.css';
@@ -38,6 +38,11 @@ class Details extends Component {
       }
   }
 
+  removeTask = todo => {
+    todo.id = this.props.clickedTodo.id;
+    this.props.removeTodo(todo);
+  }
+
   render() {
     let { todos, clickedTodo, classes } = this.props;
     let clickedTodoData;
@@ -56,7 +61,7 @@ class Details extends Component {
                     <div className="details__task">
                         <div className="task__info">
                             <div className="task-remove">
-                                <button onClick={this.removeTask} title="remove task" className="task-remove-btn">
+                                <button onClick={e => this.removeTask(clickedTodoData)} title="remove task" className="task-remove-btn">
                                     <Icon style={{ fontSize: 32 }} className="btn-icon">delete_forever</Icon>
                                 </button>
                             </div>
@@ -77,4 +82,4 @@ class Details extends Component {
   }
 }
 
-export default connect(null, {updateTodo})(withStyles(styles)(Details));
+export default connect(null, {updateTodo, removeTodo})(withStyles(styles)(Details));

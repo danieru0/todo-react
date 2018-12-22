@@ -66,3 +66,30 @@ export const updateTodo = (todo) => {
         })
     }
 }
+
+export const removeTodo = (todo) => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+
+        firebase.auth().onAuthStateChanged((user) => {
+            let databaseRef = firestore.collection('users').doc(user.uid);
+            firestore.runTransaction(transaction => {
+                return transaction.get(databaseRef).then(doc => {
+                    let todos = doc.data().todos;
+                    let newTodoArray = [];
+                    todos[todo.date].map(item => {
+                        if (Object.keys(item).toString() !== todo.id) {
+                            newTodoArray.push(item);
+                        }
+                        return '';
+                    });
+                    todos[todo.date] = newTodoArray;
+                    transaction.update(databaseRef, { todos: todos });
+                });
+            }).then(() => {
+                dispatch({ type: 'UPDATE_TODO' });
+            });
+        });
+    }
+}
