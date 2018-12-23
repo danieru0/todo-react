@@ -23,6 +23,7 @@
 
 .nav__info img {
     height: 64px;
+    width: 64px;
     border-radius: 50%;
     margin-bottom: 8px;
 }

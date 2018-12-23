@@ -10,7 +10,9 @@ class Nav extends Component {
     if (!auth.uid) return '';
     return (
       <div className="nav">
-        <Link to="/app/user" style={{backgroundImage: `url(${profile.background})`}} className="nav__user">
+        <Link to="/app/user" style={
+                profile.background ? {backgroundImage: `url(${profile.background})`} : {background: '#9e9e9e'}
+            } className="nav__user">
             <div className="nav__info">
                 <img alt="" src={profile.avatar}></img>
                 <p className="nav__name">{profile.full_name}</p>

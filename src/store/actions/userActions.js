@@ -25,3 +25,25 @@ export const updateImages = (images) => {
         });
     }
 }
+
+export const changePassword = (credentials) => {
+    return (dispatch, getState, { getFirebase }) => {
+        const firebase = getFirebase();
+
+        firebase.auth().onAuthStateChanged((user) => {
+            let credential = firebase.auth.EmailAuthProvider.credential(
+                user.email,
+                credentials.oldPassword
+            )
+            user.reauthenticateWithCredential(credential).then(() => {
+                user.updatePassword(credentials.newPassword).then(() => {
+                    console.log('changed!');
+                }).catch(() => {
+                    console.log('something went wrong!');
+                })
+            }).catch(() => {
+                console.log('Old password problem')
+            });
+        })
+    }
+}

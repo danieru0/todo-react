@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { updateImages } from '../../../store/actions/userActions';
+import { updateImages, changePassword } from '../../../store/actions/userActions';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Dialog from '../../menu/dialog/dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import './user.css';
+import Redirect from 'react-router-dom/Redirect';
 
 const styles = {
   save: {
@@ -36,17 +37,27 @@ class User extends Component {
       avatarImage: null,
       avatarImageLink: null,
       backgroundImage: null,
-      backgroundImageLink: null
+      backgroundImageLink: null,
+      oldPassword: null,
+      newPassword: null
     }
   }
 
   handleUserSubmit = e => {
     e.preventDefault();
     this.setState({ submitted: true });
-    this.props.updateImages({
-      avatar: this.state.avatarImage,
-      background: this.state.backgroundImage
-    });
+    if (this.state.avatarImage || this.state.backgroundImage) {
+      this.props.updateImages({
+        avatar: this.state.avatarImage,
+        background: this.state.backgroundImage
+      }); 
+    }
+    if (this.state.oldPassword && this.state.newPassword) {
+      this.props.changePassword({
+        oldPassword: this.state.oldPassword,
+        newPassword: this.state.newPassword
+      })
+    }
   }
 
   handleDeleteButton = () => {
@@ -81,8 +92,15 @@ class User extends Component {
     }
   }
 
+  handlePasswordInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, auth } = this.props;
+    if (!auth.uid) return <Redirect to="/" />
     return (
       <div className="user">
         <form onSubmit={this.handleUserSubmit} className="user__form">
@@ -98,8 +116,8 @@ class User extends Component {
           </div>
           <p className="user__settings-title">Password</p>
           <div className="settings-group">
-            <input name="old-password" type="password" placeholder="Your old password" className="user__password"></input>
-            <input name="new-password" type="password" placeholder="Your new password" className="user__password"></input>
+            <input onChange={this.handlePasswordInput} name="oldPassword" type="password" placeholder="Your old password" className="user__password"></input>
+            <input onChange={this.handlePasswordInput} name="newPassword" type="password" placeholder="Your new password" className="user__password"></input>
           </div>
           <div className="settings-group">
             <Button
@@ -124,4 +142,10 @@ class User extends Component {
   }
 }
 
-export default connect(null, {updateImages})(withStyles(styles)(User));
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth
+  }
+}
+
+export default connect(mapStateToProps, {updateImages, changePassword})(withStyles(styles)(User));

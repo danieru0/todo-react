@@ -26,6 +26,16 @@ class Details extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+      if (nextProps.clickedTodo) {
+          if (this.props.clickedTodo) {
+            if (nextProps.clickedTodo.id !== this.props.clickedTodo.id) {
+                this.setState({ description: null });
+            }
+          }
+      }
+  }
+
   handleAreaChange = e => {
     this.setState({ [e.target.name]: e.target.value ? e.target.value : '' });
   }
