@@ -193,11 +193,8 @@ class Head extends Component {
   }
 
   render() {
-    const { classes, auth, todos, todoAdded, todoUpdated } = this.props;
-    if (todoAdded) {
-      this.props.getAllTodo();
-    }
-    if (todoUpdated) {
+    const { classes, auth, todos, todoAdded, todoUpdated, todoRemoved } = this.props;
+    if (todoAdded || todoRemoved || todoUpdated) {
       this.props.getAllTodo();
     }
     let formattedTodos = [];
@@ -401,6 +398,7 @@ const mapStateToProps = (state) => {
     todos: state.todo.todos ? state.todo.todos.todos : null,
     todoUpdated: state.todo.todoUpdated,
     todoAdded: state.todo.todoAdded,
+    todoRemoved: state.todo.todoRemoved,
     auth: state.firebase.auth
   }
 }

@@ -7,6 +7,7 @@ import Login from './components/auth/login/login';
 import Register from './components/auth/register/register';
 import Head from './components/todo/head/head';
 import User from './components/todo/user/user';
+import Snackbar from './components/menu/snackbar/snackbar';
 
 class App extends Component {
   render() {
@@ -22,6 +23,7 @@ class App extends Component {
             <Route path="/app/:page" component={Head}/>
             <Route path="/app" component={Head}/>
           </Switch>
+          <Snackbar />
         </div>
         </BrowserRouter>
       </MuiPickersUtilsProvider>

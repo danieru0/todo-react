@@ -88,7 +88,7 @@ export const removeTodo = (todo) => {
                     transaction.update(databaseRef, { todos: todos });
                 });
             }).then(() => {
-                dispatch({ type: 'UPDATE_TODO' });
+                dispatch({ type: 'REMOVE_TODO' });
             });
         });
     }
