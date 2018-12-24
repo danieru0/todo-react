@@ -51,3 +51,20 @@ export const changePassword = (credentials) => {
         })
     }
 }
+
+export const deleteAccount = () => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+
+        firebase.auth().onAuthStateChanged((user) => {
+            firestore.collection('users').doc(user.uid).delete().then(() => {
+                user.delete().then(() => {
+                    console.log('deleted!');
+                }).catch((err) => {
+                    console.log(err);
+                });
+            });
+        });
+    }
+}

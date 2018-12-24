@@ -17,7 +17,10 @@ export const signUp = (newUser) => {
         firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password).then((resp) =>{
             firestore.collection('users').doc(resp.user.uid).set({
                 full_name: newUser.name,
-                email: newUser.email
+                email: newUser.email,
+                todos: {},
+                background: 'https://react-materialize.github.io/img/office.jpg',
+                avatar: 'https://react-materialize.github.io/img/yuna.jpg'
             }).then(() => {
                 dispatch({ type: 'SIGNUP_SUCCESS' })
             });

@@ -195,7 +195,7 @@ class Head extends Component {
   }
 
   render() {
-    const { classes, auth, todos, todoAdded, todoUpdated, todoRemoved } = this.props;
+    let { classes, auth, todos, todoAdded, todoUpdated, todoRemoved } = this.props;
     if (todoAdded || todoRemoved || todoUpdated) {
       this.props.getAllTodo();
     }
@@ -242,6 +242,8 @@ class Head extends Component {
             }
           }
       }
+    } else {
+      todos = ' ';
     }
     return (
       <MuiThemeProvider theme={materialTheme}>

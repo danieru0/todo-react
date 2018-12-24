@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signUp } from '../../../store/actions/authActions';
+import { Redirect } from 'react-router-dom';
 import './register.css';
 
 const styles = {
@@ -46,7 +47,8 @@ class Register extends Component {
   }
 
   render() {
-    const { classes, authRegisterError } = this.props;
+    const { classes, authRegisterError, auth } = this.props;
+    if (auth.uid) return <Redirect to="/app" />
     return (
       <div className="register">
         <form onSubmit={this.handleRegisterSubmit} className="register__form">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { updateImages, changePassword } from '../../../store/actions/userActions';
+import { updateImages, changePassword, deleteAccount } from '../../../store/actions/userActions';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Dialog from '../../menu/dialog/dialog';
@@ -76,8 +76,8 @@ class User extends Component {
         this.setState({ submitted: false, deleteDialog: false });
         break;
       case 'yes':
-        this.setState({ submitted: false, deleteDialog: false });
-        alert('deleting account...');
+        //this.setState({ submitted: false, deleteDialog: false });
+        this.props.deleteAccount();
         break;
       case 'outside':
         this.setState({ submitted: false, deleteDialog: false });
@@ -161,4 +161,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {updateImages, changePassword})(withStyles(styles)(User));
+export default connect(mapStateToProps, {updateImages, changePassword, deleteAccount})(withStyles(styles)(User));

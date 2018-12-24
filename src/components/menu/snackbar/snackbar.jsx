@@ -8,7 +8,7 @@ const materialTheme = createMuiTheme({
     typography: {
         useNextVariants: true
     }
-})
+});
 
 class Notification extends Component {
     constructor() {
