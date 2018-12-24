@@ -14,15 +14,22 @@ class Notification extends Component {
     constructor() {
         super();
         this.state = {
-            open: false
+            open: false,
+            message: null
         }
     }
 
-    componentWillReceiveProps() {
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.userChange !== this.props.userChange) {
+            this.setState({ message: nextProps.userMessage });
+        }
+        if (nextProps.todoChange !== this.props.todoChange) {
+            this.setState({ message: nextProps.todoMessage });
+        }
         this.setState({ open: true });
     }
 
-    handleClose = (event, reason) => {
+    handleClose = () => {
         this.setState({ open: false });
     }
 
@@ -37,7 +44,7 @@ class Notification extends Component {
                     open={this.state.open}
                     autoHideDuration={2000}
                     onClose={this.handleClose}
-                    message={<span id="message-id">{this.props.message ? this.props.message : ''}</span>}
+                    message={<span id="message-id">{this.state.message ? this.state.message : ''}</span>}
                     action={[
                         <IconButton
                             key="close"
@@ -56,9 +63,11 @@ class Notification extends Component {
 
 const mapStateToProps = state => {
     return {
-        changeId: state.todo.snackbar,
-        message: state.todo.message
+        todoChange: state.todo.snackbar,
+        todoMessage: state.todo.message,
+        userMessage: state.user.userMessage,
+        userChange: state.user.avatarUpdated || state.user.backgroundUpdated || state.user.passwordChange
     }
 }
 
-export default  connect(mapStateToProps, null)(Notification);
+export default connect(mapStateToProps, null)(Notification);

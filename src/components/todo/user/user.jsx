@@ -45,18 +45,20 @@ class User extends Component {
 
   handleUserSubmit = e => {
     e.preventDefault();
-    this.setState({ submitted: true });
-    if (this.state.avatarImage || this.state.backgroundImage) {
-      this.props.updateImages({
-        avatar: this.state.avatarImage,
-        background: this.state.backgroundImage
-      }); 
-    }
-    if (this.state.oldPassword && this.state.newPassword) {
-      this.props.changePassword({
-        oldPassword: this.state.oldPassword,
-        newPassword: this.state.newPassword
-      })
+    if (this.state.avatarImage || this.state.backgroundImage || this.state.oldPassword || this.state.newPassword) {
+      this.setState({ submitted: true });
+      if (this.state.avatarImage || this.state.backgroundImage) {
+        this.props.updateImages({
+          avatar: this.state.avatarImage,
+          background: this.state.backgroundImage
+        }); 
+      }
+      if (this.state.oldPassword && this.state.newPassword) {
+        this.props.changePassword({
+          oldPassword: this.state.oldPassword,
+          newPassword: this.state.newPassword
+        })
+      }
     }
   }
 
@@ -144,7 +146,8 @@ class User extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    
   }
 }
 

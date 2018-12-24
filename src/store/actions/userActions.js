@@ -9,7 +9,9 @@ export const updateImages = (images) => {
                     snapshot.ref.getDownloadURL().then((url) => {
                         firestore.collection('users').doc(user.uid).update({
                             avatar: url
-                        })
+                        }).then(() => {
+                            dispatch({ type: 'AVATAR_SUCCESS' });
+                        });
                     });
                 });
             }
@@ -18,6 +20,8 @@ export const updateImages = (images) => {
                     snapshot.ref.getDownloadURL().then((url) => {
                         firestore.collection('users').doc(user.uid).update({
                             background: url
+                        }).then(() => {
+                            dispatch({ type: 'BACKGROUND_SUCCESS' });
                         })
                     });
                 });
@@ -37,12 +41,12 @@ export const changePassword = (credentials) => {
             )
             user.reauthenticateWithCredential(credential).then(() => {
                 user.updatePassword(credentials.newPassword).then(() => {
-                    console.log('changed!');
-                }).catch(() => {
-                    console.log('something went wrong!');
+                    dispatch({ type: 'PASSWORD_SUCCESS' });
+                }).catch((err) => {
+                    dispatch({ type: 'PASSWORD_ERROR', err });
                 })
-            }).catch(() => {
-                console.log('Old password problem')
+            }).catch((err) => {
+                dispatch({ type: 'PASSWORD_ERROR', err });
             });
         })
     }
