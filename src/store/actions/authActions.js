@@ -20,9 +20,9 @@ export const signUp = (newUser) => {
                 email: newUser.email
             }).then(() => {
                 dispatch({ type: 'SIGNUP_SUCCESS' })
-            }).catch((err) => {
-                dispatch({ type: 'SIGNUP_ERROR', err })
             });
+        }).catch((err) => {
+            dispatch({ type: 'SIGNUP_ERROR', err })
         })
     }
 }

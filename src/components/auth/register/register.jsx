@@ -31,6 +31,10 @@ class Register extends Component {
     }
   }
 
+  componentWillReceiveProps() {
+    this.setState({ submitted: false });
+  }
+
   handleRegisterSubmit = e => {
     e.preventDefault();
     this.setState({ submitted: true });
@@ -42,10 +46,13 @@ class Register extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, authRegisterError } = this.props;
     return (
       <div className="register">
         <form onSubmit={this.handleRegisterSubmit} className="register__form">
+          <div className="register__errors">
+            <p>{authRegisterError}</p>
+          </div>
           <div className="form-group">
             <input onChange={this.handleInputChange} name="name" type="text" className="register__name" required></input>
             <label htmlFor="name" className="floating-label">Full name</label>
@@ -79,7 +86,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-      auth: state.firebase.auth
+      auth: state.firebase.auth,
+      authRegisterError: state.auth.authRegisterError
   }
 }
 

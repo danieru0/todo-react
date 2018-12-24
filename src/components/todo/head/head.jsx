@@ -166,18 +166,20 @@ class Head extends Component {
   }
 
   handleTodoAdd = date => {
-    let year = date.getFullYear();
-    let month = ('0' + (date.getMonth() +1)).slice(-2);
-    let day = ('0' + date.getDate()).slice(-2);
-    let hours = ('0' + date.getHours()).slice(-2);
-    let minutes = ('0' + date.getMinutes()).slice(-2);
-    let fullDate = `${year}-${month}-${day} ${hours}:${minutes}`;
-    this.props.createTodo({
-      time: fullDate.split(' ')[1],
-      date: fullDate.split(' ')[0],
-      todo: this.state.todoInputText,
-      id: Date.now().toString(36) + Math.random().toString(36).substr(2)
-    });
+    if (this.state.todoInputText) {
+      let year = date.getFullYear();
+      let month = ('0' + (date.getMonth() +1)).slice(-2);
+      let day = ('0' + date.getDate()).slice(-2);
+      let hours = ('0' + date.getHours()).slice(-2);
+      let minutes = ('0' + date.getMinutes()).slice(-2);
+      let fullDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+      this.props.createTodo({
+        time: fullDate.split(' ')[1],
+        date: fullDate.split(' ')[0],
+        todo: this.state.todoInputText,
+        id: Date.now().toString(36) + Math.random().toString(36).substr(2)
+      });
+    }
   }
 
   handleDropGroupBtn = (e) => {

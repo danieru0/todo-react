@@ -35,6 +35,10 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  componentWillReceiveProps() {
+    this.setState({ submitted: false });
+  }
+
   handleLoginSubmit = (e) => {
     e.preventDefault();
     this.setState({ submitted: true });
@@ -42,11 +46,14 @@ class Login extends Component {
   }
 
   render() {
-    const { classes, auth } = this.props;
+    const { classes, auth, authError } = this.props;
     if (auth.uid) return <Redirect to="/app" />
     return (
       <div className="login">
         <form onSubmit={this.handleLoginSubmit} className="login__form">
+          <div className="login__errors">
+            <p>{authError}</p>
+          </div>
           <div className="form-group">
             <input onChange={this.handleInputChange} name="email" required type="text" className="login__email"></input>
             <label htmlFor="email" className="floating-label">Your email</label>
