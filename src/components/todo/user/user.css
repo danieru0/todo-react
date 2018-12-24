@@ -8,11 +8,20 @@
 
 .user__form {
     width: 500px;
-    height: 570px;
+    height: 610px;
     border: 1px solid #e6e6e6;
     border-radius: 20px;
     flex-direction: column;
     box-shadow: 0 0 10px 0.1px #000000;   
+}
+
+.user__errors p {
+    text-align: center;
+    color: red;
+}
+
+.user__errors {
+    margin-top: 20px;
 }
 
 .user__settings-title {

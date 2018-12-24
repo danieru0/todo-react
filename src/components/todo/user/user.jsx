@@ -43,6 +43,10 @@ class User extends Component {
     }
   }
 
+  componentWillReceiveProps() {
+    this.setState({ submitted: false });
+  }
+
   handleUserSubmit = e => {
     e.preventDefault();
     if (this.state.avatarImage || this.state.backgroundImage || this.state.oldPassword || this.state.newPassword) {
@@ -101,11 +105,14 @@ class User extends Component {
   }
 
   render() {
-    const { classes, auth } = this.props;
+    const { classes, auth, passwordChangeErrorMessage } = this.props;
     if (!auth.uid) return <Redirect to="/" />
     return (
       <div className="user">
         <form onSubmit={this.handleUserSubmit} className="user__form">
+          <div className="user__errors">
+            <p>{passwordChangeErrorMessage ? passwordChangeErrorMessage : ' '}</p>
+          </div>
           <p className="user__settings-title">Avatar<span className="title-small"> 64x64</span></p>
           <div className="settings-group">
             <img className="settings__avatar" alt="" src={this.state.avatarImageLink ? this.state.avatarImageLink : "https://react-materialize.github.io/img/yuna.jpg"}></img>
@@ -147,7 +154,10 @@ class User extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    
+    passwordChange: state.user.passwordChange,
+    passwordChangeError: state.user.passwordChangeError,
+    passwordChangeErrorMessage: state.user.passwordChangeErrorMessage,
+    userChange: state.user.avatarUpdated || state.user.backgroundUpdated || state.user.passwordChange
   }
 }
 

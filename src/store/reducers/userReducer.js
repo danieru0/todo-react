@@ -3,6 +3,7 @@ const initState = {
     backgroundUpdated: null,
     passwordChange: null,
     passwordChangeError: null,
+    passwordChangeErrorMessage: null,
     userMessage: null
 }
 
@@ -23,14 +24,15 @@ const userReducer = (state = initState, action) => {
         case 'PASSWORD_SUCCESS':
             return {
                 ...state,
-                passwordChangeError: null,
+                passwordChangeErrorMessage: null,
                 userMessage: 'Profile has been updated',
                 passwordChange: Date.now().toString(36) + Math.random().toString(36).substr(2)
             }
         case 'PASSWORD_ERROR':
             return {
                 ...state,
-                passwordChangeError: action.err.message
+                passwordChangeError: Date.now().toString(36) + Math.random().toString(36).substr(2),
+                passwordChangeErrorMessage: action.err.message
             }
         default: return state;
     }
