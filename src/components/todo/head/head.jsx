@@ -242,8 +242,6 @@ class Head extends Component {
             }
           }
       }
-    } else {
-      todos = ' ';
     }
     return (
       <MuiThemeProvider theme={materialTheme}>

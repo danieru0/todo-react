@@ -26,6 +26,9 @@ class Notification extends Component {
         if (nextProps.todoChange !== this.props.todoChange) {
             this.setState({ message: nextProps.todoMessage });
         }
+        if (nextProps.signOut !== this.props.signOut) {
+            this.setState({ message: 'You have been logged out!' });
+        }
         this.setState({ open: true });
     }
 
@@ -66,7 +69,8 @@ const mapStateToProps = state => {
         todoChange: state.todo.snackbar,
         todoMessage: state.todo.message,
         userMessage: state.user.userMessage,
-        userChange: state.user.avatarUpdated || state.user.backgroundUpdated || state.user.passwordChange
+        userChange: state.user.avatarUpdated || state.user.backgroundUpdated || state.user.passwordChange,
+        signOut: state.auth.authSignOut
     }
 }
 

@@ -76,7 +76,6 @@ class User extends Component {
         this.setState({ submitted: false, deleteDialog: false });
         break;
       case 'yes':
-        //this.setState({ submitted: false, deleteDialog: false });
         this.props.deleteAccount();
         break;
       case 'outside':
@@ -105,7 +104,7 @@ class User extends Component {
   }
 
   render() {
-    const { classes, auth, passwordChangeErrorMessage } = this.props;
+    const { classes, auth, passwordChangeErrorMessage, profile } = this.props;
     if (!auth.uid) return <Redirect to="/" />
     return (
       <div className="user">
@@ -115,12 +114,12 @@ class User extends Component {
           </div>
           <p className="user__settings-title">Avatar<span className="title-small"> 64x64</span></p>
           <div className="settings-group">
-            <img className="settings__avatar" alt="" src={this.state.avatarImageLink ? this.state.avatarImageLink : "https://react-materialize.github.io/img/yuna.jpg"}></img>
+            <img className="settings__avatar" alt="" src={this.state.avatarImageLink ? this.state.avatarImageLink : profile.avatar}></img>
             <input onChange={this.handleFileChange} name="avatarImage" className="settings__file" type="file" accept="image/*" ></input>
           </div>
           <p className="user__settings-title">Background<span className="title-small"> 250x180</span></p>
           <div className="settings-group">
-            <img className="settings__background" alt="" src={this.state.backgroundImageLink ? this.state.backgroundImageLink : "https://react-materialize.github.io/img/office.jpg"}></img>
+            <img className="settings__background" alt="" src={this.state.backgroundImageLink ? this.state.backgroundImageLink : profile.background}></img>
             <input onChange={this.handleFileChange} name="backgroundImage" className="settings__file" type="file" accept="image/*"></input>
           </div>
           <p className="user__settings-title">Password</p>
@@ -152,8 +151,10 @@ class User extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state);
   return {
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
     passwordChange: state.user.passwordChange,
     passwordChangeError: state.user.passwordChangeError,
     passwordChangeErrorMessage: state.user.passwordChangeErrorMessage,
