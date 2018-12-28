@@ -14,7 +14,7 @@ const styles = {
         '&:hover': {
             backgroundColor: '#7E57C2'
         },
-        marginTop: '20px'
+        marginTop: '10px'
     }
 }
 

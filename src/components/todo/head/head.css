@@ -163,3 +163,7 @@ body {
 .head__detailsComponent {
     height: 60%;
 }
+
+.head__weatherComponent {
+    height: 40%;
+}

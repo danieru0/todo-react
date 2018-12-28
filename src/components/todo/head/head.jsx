@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment/moment.js';
 import Details from '../details/details';
+import Weather from '../weather/weather';
 import './head.css';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -381,6 +382,9 @@ class Head extends Component {
               <div className="head__info-wrapper">
                 <div className="head__detailsComponent">
                   <Details todos={todos} clickedTodo={this.state.clickedTodo} />
+                </div>
+                <div className="head__weatherComponent">
+                  <Weather />
                 </div>
               </div>
             </div>
