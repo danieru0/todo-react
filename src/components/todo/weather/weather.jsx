@@ -7,9 +7,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { getWeather } from '../../../store/actions/weatherActions';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = {
     vertIcon: {
+        color: '#ffffff'
+    },
+    loader: {
         color: '#ffffff'
     }
 }
@@ -22,8 +26,10 @@ class Weather extends Component {
         }
     }
 
-    componentDidMount() {
-        this.props.getWeather('Wroclaw');
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.profile.city !== this.props.profile.city) {
+            this.props.getWeather(nextProps.profile.city);
+        }
     }
 
     hadleOpenMenu = e => {
@@ -32,6 +38,11 @@ class Weather extends Component {
 
     handleCloseMenu = () => {
         this.setState({ anchorEl: null });
+    }
+
+    refreshWeather = () => {
+        this.setState({ anchorEl: null });
+        this.props.getWeather(this.props.profile.city);
     }
 
     render() {
@@ -56,6 +67,7 @@ class Weather extends Component {
                                 onClose={this.handleCloseMenu}
                             >
                                 <MenuItem>Change city</MenuItem>
+                                <MenuItem onClick={this.refreshWeather}>Refresh</MenuItem>
                             </Menu>
                             </div>
                             <div className="weather__info">
@@ -80,9 +92,11 @@ class Weather extends Component {
                                     </div>
                                 </div>
                             </div>
-                    </>
+                        </>
                     ) : (
-                        ''
+                        <div className="weather__info">
+                            <CircularProgress  className={classes.loader} />
+                        </div>
                     )
                 }
             </div>
@@ -92,6 +106,7 @@ class Weather extends Component {
 
 const mapStateToProps = state => {
     return {
+        profile: state.firebase.profile,
         weatherUpdate: state.weather.weatherUpdate,
         weatherData: state.weather.weatherData ? state.weather.weatherData.resp : state.weather.weatherData
     }
