@@ -2,6 +2,10 @@
     height: 100%;
 }
 
+.details__task {
+    height: 100%;
+}
+
 .details__center {
     display: flex;
     align-items: center;
@@ -41,6 +45,7 @@
 
 .task__description {
     margin-left: 19px;
+    height: 90%;
 }
 
 .task-title {
@@ -52,7 +57,7 @@
 .description__textarea {
     resize: none;
     width: 95%;
-    height: 400px;
+    height: 80%;
     border: none;
     margin-top: 15px;
     font-size: 16px;

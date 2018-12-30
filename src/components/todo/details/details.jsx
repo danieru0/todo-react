@@ -79,7 +79,7 @@ class Details extends Component {
                         </div>
                         <div className="task__description">
                             <p className="task-title">{clickedTodoData.todo}</p>
-                            <textarea name="description" onChange={this.handleAreaChange} value={this.state.description !== null ? this.state.description : clickedTodoData.description} className="description__textarea" placeholder="Description"></textarea>
+                                <textarea name="description" onChange={this.handleAreaChange} value={this.state.description !== null ? this.state.description : clickedTodoData.description} className="description__textarea" placeholder="Description"></textarea>
                             <Button onClick={e => this.updateDescriptionTask(clickedTodoData, this.state.description)} className={classes.cssRoot} variant="contained">Save</Button>
                         </div>
                     </div>

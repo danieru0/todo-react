@@ -1,7 +1,7 @@
 .weather {
-    background: url('https://wallpapersite.com/images/pages/pic_w/10471.png'), #398DCF;
+    background: url('https://wallpapersite.com/images/pages/pic_w/10471.png');
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
     height: 100%;
     margin-left: 19px;
     position: relative;
