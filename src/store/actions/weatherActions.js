@@ -7,3 +7,16 @@ export const getWeather = (city) => {
             });
     };
 }
+
+export const updateCity = (city) => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+
+        firebase.auth().onAuthStateChanged((user) => {
+             firestore.collection('users').doc(user.uid).update({
+                 city: city
+             })
+        });
+    }
+}

@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { getWeather } from '../../../store/actions/weatherActions';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Dialog from '../../menu/dialog/dialog';
 
 const styles = {
     vertIcon: {
@@ -22,7 +23,8 @@ class Weather extends Component {
     constructor() {
         super();
         this.state = {
-            anchorEl: null
+            anchorEl: null,
+            changeCity: false
         }
     }
 
@@ -45,12 +47,28 @@ class Weather extends Component {
         this.props.getWeather(this.props.profile.city);
     }
 
+    changeCityButton = () => {
+        this.setState({ anchorEl: null, changeCity: true });
+    }
+
+    handleChangeCity = type => {
+        switch(type) {
+            case 'cancel':
+                this.setState({ changeCity: false });
+                break;
+            case 'outside':
+                this.setState({ changeCity: false });
+                break;
+            default: break;
+        }
+    }
+
     render() {
         const { classes, weatherData } = this.props;
         return (
             <div className="weather">
                 {
-                    weatherData ? (
+                    weatherData && weatherData.cod === 200 ? (
                         <>
                             <div className="weather__button">
                             <IconButton
@@ -66,7 +84,7 @@ class Weather extends Component {
                                 open={Boolean(this.state.anchorEl)}
                                 onClose={this.handleCloseMenu}
                             >
-                                <MenuItem>Change city</MenuItem>
+                                <MenuItem onClick={this.changeCityButton}>Change city</MenuItem>
                                 <MenuItem onClick={this.refreshWeather}>Refresh</MenuItem>
                             </Menu>
                             </div>
@@ -98,6 +116,9 @@ class Weather extends Component {
                             <CircularProgress  className={classes.loader} />
                         </div>
                     )
+                }
+                {
+                    this.state.changeCity ? <Dialog dialogType="weather-city" onClick={this.handleChangeCity} /> : ''
                 }
             </div>
         )

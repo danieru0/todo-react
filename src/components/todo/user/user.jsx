@@ -143,7 +143,7 @@ class User extends Component {
           </div>
         </form>
         {
-          this.state.deleteDialog ? <Dialog onClick={this.handleDeleteDialog} /> : '' 
+          this.state.deleteDialog ? <Dialog dialogType="delete-account" onClick={this.handleDeleteDialog} /> : '' 
         }
       </div>
     );
