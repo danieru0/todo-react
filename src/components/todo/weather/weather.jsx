@@ -90,11 +90,11 @@ class Weather extends Component {
                             </div>
                             <div className="weather__info">
                                 <div className="weather__city">
-                                    <img alt="" className="weather__icon" src="https://cdn3.iconfinder.com/data/icons/weather-344/142/cloudy-512.png"></img>
+                                    <img alt="" className="weather__icon" src={`/imgs/${weatherData.weather[0].icon}.png`}></img>
                                     <p className="weather__city-name">{`${weatherData.name}, ${weatherData.sys.country}`}</p>
                                 </div>
                                 <div className="weather__temp">
-                                    <p>{`${weatherData.main.temp}`}&deg;C</p>
+                                    <p>{`${(weatherData.main.temp).toFixed(0)}`}&deg;C</p>
                                 </div>
                                 <div className="weather__details">
                                     <div className="weather__container">
