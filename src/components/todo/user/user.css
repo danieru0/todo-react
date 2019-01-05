@@ -39,7 +39,8 @@
 }
 
 .settings-group {
-    margin-left: 20px;
+    padding-left: 20px;
+    box-sizing: border-box;
     display: flex;
     width: 100%;
     align-items: center;
@@ -79,4 +80,52 @@
 
 .settings-group button {
     margin-right: 20px;
+}
+
+@media (max-width: 928px) {
+    .user__form {
+        margin-left: 200px;
+    }
+}
+
+@media (max-width: 748px) {
+    .user__form {
+        margin: 0;
+    }
+    .user {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 700px) {
+    .user {
+        justify-content: center;
+    }
+    .avatar-settings, .background-settings {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .settings__file {
+        align-self: flex-start;
+        margin: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    .user__form {
+        width: 95%;
+    }
+}
+
+@media (max-width: 422px) {
+    .password-settings {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .password-settings input:first-of-type {
+        margin-bottom: 10px;
+    }
+    .settings-group:last-of-type {
+        margin-top: 10px;
+    }
 }

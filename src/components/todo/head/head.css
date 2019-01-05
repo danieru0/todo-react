@@ -167,3 +167,43 @@ body {
 .head__weatherComponent {
     height: 40%;
 }
+
+@media (max-width: 1109px) {
+    .head {
+        width: calc(100% - 200px);
+    }
+    .head__info-wrapper {
+        margin-left: 85px;
+    }
+}
+
+@media (max-width: 700px) {
+    .head {
+        width: 100%;
+    }
+    .head__info-wrapper {
+        margin-left: 10px;
+    }
+    .head__page-title {
+       margin-left: 50px; 
+    }
+}
+
+@media (max-width: 600px) {
+    .head__info {
+        width: 100%;
+        background: white;
+        z-index: 1;
+        display: none;
+    }
+    .head__info.active {
+        display: block;
+    }
+    .head__todo {
+        width: 100%;
+        margin-right: 15px;
+    }
+    .head__info-wrapper {
+        margin: 0;
+    }
+}

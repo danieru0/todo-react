@@ -14,11 +14,11 @@ export const signUp = (newUser) => {
         const firebase = getFirebase();
         const firestore = getFirestore();
 
-        firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password).then((resp) =>{
+        firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password).then((createdUser) =>{
             fetch('https://api.ipdata.co/city?api-key=199538747555b9883ca365cadbff8af8e21d2f7e5b06a6bcb4605a3c')
                 .then(resp => resp.text())
                 .then(resp => {
-                    firestore.collection('users').doc(resp.user.uid).set({
+                    firestore.collection('users').doc(createdUser.user.uid).set({
                         full_name: newUser.name,
                         email: newUser.email,
                         todos: {},

@@ -13,6 +13,7 @@
     height: 100%;
     color: lightgrey;
     font-size: 26px;
+    text-align: center;
 }
 
 .task__info {
@@ -64,4 +65,45 @@
     outline: none;
     font-family: Roboto;
     border-bottom: 1px solid lightgrey;
+}
+
+.details-close {
+    width: 60px;
+    height: 21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid lightgrey;
+    display: none;
+}
+
+.details-close button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+@media (max-height: 910px) {
+    .description__textarea {
+        height: 70%;
+    }
+}
+
+@media (max-height: 693px) {
+    .description__textarea {
+        height: 50%;
+    }
+}
+
+@media (max-height: 474px) {
+    .description__textarea {
+        height: 30%;
+    }
+}
+
+@media (max-width: 600px) {
+    .details-close {
+        display: flex;
+    }
 }

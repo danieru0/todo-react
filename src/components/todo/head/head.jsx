@@ -87,7 +87,8 @@ class Head extends Component {
       todoInputText: null,
       todoClose: false,
       selectedPage: null,
-      loadingTodos: false
+      loadingTodos: false,
+      clickedTodo: null
     }
   }
 
@@ -193,6 +194,10 @@ class Head extends Component {
       e.target.parentNode.style.height = '0px';
       this.props.updateTodo({ todo: todo, finished: shouldBeFinished});
     }
+  }
+
+  closeInfo = () => {
+    this.setState({ clickedTodo: null });
   }
 
   render() {
@@ -378,10 +383,10 @@ class Head extends Component {
                 )
               }
             </div>
-            <div className="head__info">
+            <div className={this.state.clickedTodo ? "head__info active" : "head__info"}>
               <div className="head__info-wrapper">
                 <div className="head__detailsComponent">
-                  <Details todos={todos} clickedTodo={this.state.clickedTodo} />
+                  <Details onClick={this.closeInfo} todos={todos} clickedTodo={this.state.clickedTodo} />
                 </div>
                 <div className="head__weatherComponent">
                   <Weather />

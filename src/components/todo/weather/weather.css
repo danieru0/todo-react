@@ -84,3 +84,37 @@
 .weather__box p {
     margin: 0;
 }
+
+@media (max-width: 1109px) {
+    .weather__icon {
+        right: 0;
+    }
+    .weather__city-name {
+        font-size: 30px;
+    }
+    .weather__temp p {
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 874px) {
+    .weather__city-name {
+        font-size: 20px;
+    }
+    .weather__icon {
+        width: 64px;
+        height: 64px;
+    }
+    .weather__temp p {
+        font-size: 40px;
+    }
+    .weather__box {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .weather {
+        margin: 0;
+    }
+}

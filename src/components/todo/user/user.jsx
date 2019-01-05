@@ -113,17 +113,17 @@ class User extends Component {
             <p>{passwordChangeErrorMessage ? passwordChangeErrorMessage : ' '}</p>
           </div>
           <p className="user__settings-title">Avatar<span className="title-small"> 64x64</span></p>
-          <div className="settings-group">
+          <div className="settings-group avatar-settings">
             <img className="settings__avatar" alt="" src={this.state.avatarImageLink ? this.state.avatarImageLink : profile.avatar}></img>
             <input onChange={this.handleFileChange} name="avatarImage" className="settings__file" type="file" accept="image/*" ></input>
           </div>
           <p className="user__settings-title">Background<span className="title-small"> 250x180</span></p>
-          <div className="settings-group">
+          <div className="settings-group background-settings">
             <img className="settings__background" alt="" src={this.state.backgroundImageLink ? this.state.backgroundImageLink : profile.background}></img>
             <input onChange={this.handleFileChange} name="backgroundImage" className="settings__file" type="file" accept="image/*"></input>
           </div>
           <p className="user__settings-title">Password</p>
-          <div className="settings-group">
+          <div className="settings-group password-settings">
             <input onChange={this.handlePasswordInput} name="oldPassword" type="password" placeholder="Your old password" className="user__password"></input>
             <input onChange={this.handlePasswordInput} name="newPassword" type="password" placeholder="Your new password" className="user__password"></input>
           </div>
