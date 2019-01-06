@@ -16,7 +16,13 @@ export const signUp = (newUser) => {
 
         firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password).then((createdUser) =>{
             fetch('https://api.ipdata.co/city?api-key=199538747555b9883ca365cadbff8af8e21d2f7e5b06a6bcb4605a3c')
-                .then(resp => resp.text())
+                .then(resp => {
+                    if (resp.ok) {
+                        return resp.text();
+                    } else {
+                        throw new Error();
+                    }
+                })
                 .then(resp => {
                     firestore.collection('users').doc(createdUser.user.uid).set({
                         full_name: newUser.name,
@@ -28,7 +34,18 @@ export const signUp = (newUser) => {
                     }).then(() => {
                         dispatch({ type: 'SIGNUP_SUCCESS' })
                     });
-                })
+                }).catch(() => {
+                    firestore.collection('users').doc(createdUser.user.uid).set({
+                        full_name: newUser.name,
+                        email: newUser.email,
+                        todos: {},
+                        background: 'https://react-materialize.github.io/img/office.jpg',
+                        avatar: 'https://react-materialize.github.io/img/yuna.jpg',
+                        city: 'Undefined'
+                    }).then(() => {
+                        dispatch({ type: 'SIGNUP_SUCCESS' })
+                    });
+                });
         }).catch((err) => {
             dispatch({ type: 'SIGNUP_ERROR', err })
         })

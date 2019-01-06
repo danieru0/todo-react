@@ -68,49 +68,75 @@ class Weather extends Component {
         return (
             <div className="weather">
                 {
-                    weatherData && weatherData.cod === 200 ? (
-                        <>
-                            <div className="weather__button">
-                            <IconButton
-                                aria-owns={this.state.anchorEl ? 'simple-menu' : undefined}
-                                aria-haspopup="true"
-                                onClick={this.hadleOpenMenu}
-                            >
-                                <Icon style={{ fontSize: 32 }} className={classes.vertIcon}>more_vert</Icon>
-                            </IconButton>
-                            <Menu
-                                id="simple-menu"
-                                anchorEl={this.state.anchorEl}
-                                open={Boolean(this.state.anchorEl)}
-                                onClose={this.handleCloseMenu}
-                            >
-                                <MenuItem onClick={this.changeCityButton}>Change city</MenuItem>
-                                <MenuItem onClick={this.refreshWeather}>Refresh</MenuItem>
-                            </Menu>
-                            </div>
-                            <div className="weather__info">
-                                <div className="weather__city">
-                                    <img alt="" className="weather__icon" src={`/imgs/${weatherData.weather[0].icon}.png`}></img>
-                                    <p className="weather__city-name">{`${weatherData.name}, ${weatherData.sys.country}`}</p>
+                    weatherData ? (
+                        !weatherData.err ? (
+                            <>
+                                <div className="weather__button">
+                                <IconButton
+                                    aria-owns={this.state.anchorEl ? 'simple-menu' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={this.hadleOpenMenu}
+                                >
+                                    <Icon style={{ fontSize: 32 }} className={classes.vertIcon}>more_vert</Icon>
+                                </IconButton>
+                                <Menu
+                                    id="simple-menu"
+                                    anchorEl={this.state.anchorEl}
+                                    open={Boolean(this.state.anchorEl)}
+                                    onClose={this.handleCloseMenu}
+                                >
+                                    <MenuItem onClick={this.changeCityButton}>Change city</MenuItem>
+                                    <MenuItem onClick={this.refreshWeather}>Refresh</MenuItem>
+                                </Menu>
                                 </div>
-                                <div className="weather__temp">
-                                    <p>{`${(weatherData.main.temp).toFixed(0)}`}&deg;C</p>
-                                </div>
-                                <div className="weather__details">
-                                    <div className="weather__container">
-                                        <div className="weather__box">
-                                            <p>Pressure</p>
-                                            <p>{weatherData.main.pressure}</p>
-                                        </div>
-                                        <span className="weather__line"></span>
-                                        <div className="weather__box">
-                                            <p>Humidity</p>
-                                            <p>{weatherData.main.humidity}</p>
+                                <div className="weather__info">
+                                    <div className="weather__city">
+                                        <img alt="" className="weather__icon" src={`/imgs/${weatherData.resp.weather[0].icon}.png`}></img>
+                                        <p className="weather__city-name">{`${weatherData.resp.name}, ${weatherData.resp.sys.country}`}</p>
+                                    </div>
+                                    <div className="weather__temp">
+                                        <p>{`${(weatherData.resp.main.temp).toFixed(0)}`}&deg;C</p>
+                                    </div>
+                                    <div className="weather__details">
+                                        <div className="weather__container">
+                                            <div className="weather__box">
+                                                <p>Pressure</p>
+                                                <p>{weatherData.resp.main.pressure}</p>
+                                            </div>
+                                            <span className="weather__line"></span>
+                                            <div className="weather__box">
+                                                <p>Humidity</p>
+                                                <p>{weatherData.resp.main.humidity}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </>
+                            </> 
+                        ) : (
+                            <>
+                                <div className="weather__button">
+                                <IconButton
+                                    aria-owns={this.state.anchorEl ? 'simple-menu' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={this.hadleOpenMenu}
+                                >
+                                    <Icon style={{ fontSize: 32 }} className={classes.vertIcon}>more_vert</Icon>
+                                </IconButton>
+                                <Menu
+                                    id="simple-menu"
+                                    anchorEl={this.state.anchorEl}
+                                    open={Boolean(this.state.anchorEl)}
+                                    onClose={this.handleCloseMenu}
+                                >
+                                    <MenuItem onClick={this.changeCityButton}>Change city</MenuItem>
+                                    <MenuItem onClick={this.refreshWeather}>Refresh</MenuItem>
+                                </Menu>
+                                </div>
+                                <div className="weather__info">
+                                    <span className="weather__error">{weatherData.err}</span>
+                                </div>
+                            </>
+                        )
                     ) : (
                         <div className="weather__info">
                             <CircularProgress  className={classes.loader} />
@@ -126,10 +152,11 @@ class Weather extends Component {
 }
 
 const mapStateToProps = state => {
+    console.log(state);
     return {
         profile: state.firebase.profile,
         weatherUpdate: state.weather.weatherUpdate,
-        weatherData: state.weather.weatherData ? state.weather.weatherData.resp : state.weather.weatherData
+        weatherData: state.weather.weatherData ? state.weather.weatherData : state.weather.weatherData
     }
 }
 

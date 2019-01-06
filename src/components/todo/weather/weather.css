@@ -85,6 +85,10 @@
     margin: 0;
 }
 
+.weather__error {
+    color: #ffffff;
+}
+
 @media (max-width: 1109px) {
     .weather__icon {
         right: 0;
