@@ -69,7 +69,11 @@ export const updateTodo = (todo) => {
                         });
                         transaction.update(databaseRef, { todos: todos });
                     }).then(() => {
-                        dispatch({ type: 'UPDATE_TODO' });
+                        if (todo.finished !== undefined) {
+                            dispatch({ type: 'UPDATE_TODO' });
+                        } else {
+                            dispatch({ type: 'UPDATE_DESCRIPTION' });
+                        }
                     })
                 });
             }

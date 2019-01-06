@@ -3,6 +3,7 @@ const initState = {
     todoUpdated: false,
     todoAdded: false,
     todoRemoved: false,
+    descriptionChange: null,
     snackbar: null,
     message: null
 }
@@ -28,6 +29,12 @@ const todoReducer = (state = initState, action) => {
             return {
                 ...state,
                 todoUpdated: true
+            }
+        case 'UPDATE_DESCRIPTION':
+            return {
+                ...state,
+                descriptionChange: Date.now().toString(36) + Math.random().toString(36).substr(2),
+                message: 'Description has been saved!'
             }
         case 'REMOVE_TODO':
             return {
