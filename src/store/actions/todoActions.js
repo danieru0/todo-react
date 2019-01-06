@@ -53,7 +53,7 @@ export const updateTodo = (todo) => {
                         let todos = doc.data().todos;
                         todos[todo.todo.date].map((item) => {
                             let todoItem = item[todo.todo.id];
-                            if (todo.finished) {
+                            if (todo.finished !== null) {
                                 return (
                                     todoItem ? todoItem.finished = todo.finished : null
                                 )
