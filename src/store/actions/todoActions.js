@@ -33,7 +33,11 @@ export const getAllTodo = () => {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 firestore.collection('users').doc(user.uid).get().then((doc) => {
-                    dispatch({ type: 'GET_TODO_ALL', data: doc.data() })
+                    if (doc.data().todos) {
+                        dispatch({ type: 'GET_TODO_ALL', data: doc.data() })
+                    } else {
+                        dispatch({ type: 'GET_TODO_ALL', data: {message: 'empty'} })
+                    }
                 });
             }
         });
@@ -53,7 +57,7 @@ export const updateTodo = (todo) => {
                         let todos = doc.data().todos;
                         todos[todo.todo.date].map((item) => {
                             let todoItem = item[todo.todo.id];
-                            if (todo.finished !== null) {
+                            if (todo.finished !== undefined) {
                                 return (
                                     todoItem ? todoItem.finished = todo.finished : null
                                 )
@@ -62,7 +66,7 @@ export const updateTodo = (todo) => {
                                     todoItem ? todoItem.description = todo.todo.description : null
                                 )
                             }
-                        })
+                        });
                         transaction.update(databaseRef, { todos: todos });
                     }).then(() => {
                         dispatch({ type: 'UPDATE_TODO' });
