@@ -42,10 +42,10 @@ const materialTheme = createMuiTheme({
     },
     MuiPickersToolbarButton: {
       toolbarBtn: {
-        color: '#ffffff'
+        color: '#9575cd'
       },
       toolbarBtnSelected: {
-        color: '#9575cd'
+        color: '#ffffff'
       }
     },
     MuiPickerDTTabs: {

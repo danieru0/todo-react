@@ -57,15 +57,12 @@ class Details extends Component {
     let { todos, clickedTodo, classes } = this.props;
     let clickedTodoData;
     if (todos && clickedTodo) {
-        document.body.style.overflow= 'hidden';
         todos[clickedTodo.date].map((item) => {
             if (Object.keys(item).toString() === clickedTodo.id) {
                 clickedTodoData = item[clickedTodo.id]
             }
             return '';
         });
-    } else {
-        document.body.style.overflow= 'auto'; 
     }
     return (
         <div className="details">
@@ -74,7 +71,7 @@ class Details extends Component {
                     <div className="details__task">
                         <div className="task__info">
                             <div className="details-close">
-                                <button title="go back" onClick={() => this.props.onClick()}>
+                                <button title="go back" onClick={() => { this.props.onClick(); this.setState({ description: null })}}>
                                     <Icon style={{ fontSize: 28 }} >arrow_back</Icon>
                                 </button>
                             </div>
