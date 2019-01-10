@@ -121,4 +121,7 @@
     .weather {
         margin: 0;
     }
+    .weather__icon {
+        right: auto;
+    }
 }
