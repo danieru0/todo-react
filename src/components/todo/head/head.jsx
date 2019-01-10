@@ -189,6 +189,7 @@ class Head extends Component {
   }
 
   handleTodoClick = (e, todo, shouldBeFinished) => {
+    e.stopPropagation();
     if (e.target.children[0]) {
       e.target.children[0].style.display = 'flex';
       e.target.parentNode.style.height = '0px';

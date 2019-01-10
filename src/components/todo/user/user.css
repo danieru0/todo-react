@@ -129,3 +129,11 @@
         margin-top: 10px;
     }
 }
+
+@media (max-height: 610px) {
+    .user__form {
+        height: 400px;
+        overflow: auto;
+        padding-bottom: 30px;
+    }
+}
