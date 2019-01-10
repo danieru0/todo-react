@@ -1,6 +1,6 @@
 # todo-react
 
-![app image](https://imgur.com/oozlViL)
+![app image](https://i.imgur.com/oozlViL.png)
 
 ## Features
 
