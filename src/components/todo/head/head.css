@@ -75,10 +75,12 @@ body {
     width: 100%;
     position: relative;
     height: 40px;
+    text-align: left;
 }
 
 .dropBtn-icon {
     transition: 0.3s;
+    float: left;
 }
 
 .todo__group.hidden .dropBtn-icon {
